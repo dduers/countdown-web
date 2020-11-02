@@ -9,7 +9,10 @@ class home extends \classes\cms {
      */
     function get()
     {
-        // ajax switch, when getting an ajax request over GET method
+        
+
+
+        // ajax requests
         if (self::vars('AJAX')) {
 
         }
