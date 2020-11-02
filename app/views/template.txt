@@ -1,3 +1,0 @@
-<repeat group="{{ @RESPONSE.data }}" key="{{ @key }}" value="{{ @value }}">
-    {{ @value }}<br/>
-</repeat>

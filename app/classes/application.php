@@ -42,6 +42,7 @@ class application
         self::$geo = \Web\Geo::instance();
 
         // create database connection
+        /*
         self::$f3->set('DB',
 
             self::$db = new \DB\SQL(
@@ -65,8 +66,10 @@ class application
                 self::$f3->get('database.pass')
             )
         );
+        */
 
         // create mail server connection
+        /*
         self::$em = new \SMTP(
 
             // default hostname is localhost
@@ -84,6 +87,7 @@ class application
             // default password is empty
             self::$f3->get('mail.pass') ? self::$f3->get('mail.pass') : ''
         );
+        */
 
         // init the logger object
         self::$lg = new \Log(date('Y-m-d').'.log');
@@ -113,6 +117,7 @@ class application
     // - set put parameter to PUT array
     static function beforeroute($f3)
     {
+        /*
         // if empty page is set
         if (self::$f3->get('PARAMS.page') == "") {
 
@@ -163,10 +168,12 @@ class application
             // reroute to seo uri
             self::$f3->reroute('/'.self::$f3->get('PARAMS.lang').self::$f3->get('PARAMS.0'));
         }
+        */
 
         // set language to the one detected above
-        self::$f3->set('LANGUAGE', self::$f3->get('PARAMS.lang'));
+        self::$f3->set('LANGUAGE', 'en');
 
+        /*
         // split uri segments to array
         $_t = array_filter(explode('/', self::$f3->get('PARAMS.0')));
 
@@ -175,6 +182,8 @@ class application
 
         // store page path without language
         self::$f3->set('PARAMS.1', '/'.implode('/', $_t));
+        */
+        
 
         // set default response mime
         self::$f3->set('RESPONSE.mime', 'text/html');
@@ -185,6 +194,7 @@ class application
         // store put variables to global array 'PUT'
         self::$f3->set('PUT', $put_vars);
 
+        /*
         // set default user auth
         self::$f3->set('USER.auth', 0);
 
@@ -218,6 +228,7 @@ class application
                 }
             }
         }
+        */
     }
 
     //! HTTP route post-processor
