@@ -9,8 +9,6 @@ class home extends \classes\cms {
      */
     function get()
     {
-        
-
 
         // ajax requests
         if (self::vars('AJAX')) {
