@@ -1,0 +1,19 @@
+{
+    "name": "dduers/countdown-web",
+    "description": "Countdown (Webapplication)",
+    "homepage": "https://countdown.xsite.ch",
+    "license": "MIT",
+    "type": "project",
+    "keywords": ["countdown", "web-project", "php"],
+    "require": {
+        "php": "^7.4",
+        "bcosca/fatfree-core": "^3.7"
+    },
+    "authors": [
+        {
+            "name": "Daniel Dürsteler",
+            "email": "daniel.duersteler@gmail.com",
+            "role": "Developer"
+        }
+    ]
+}

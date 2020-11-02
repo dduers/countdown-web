@@ -1,0 +1,8 @@
+/app/config/*.ini
+/phpsh/*.txt
+/tmp/cache
+/tmp/logs
+/tmp/*.php
+/uploads/*.xls
+/uploads/*.xlsx
+/vendor

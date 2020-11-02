@@ -1,0 +1,30 @@
+#@__HCP_END__@#
+# Anything after the comment above is left alone
+
+# enable rewrite engine and route requests to framework
+RewriteEngine On
+
+# Some servers require you to specify the `RewriteBase` directive
+# In such cases, it should be the path (relative to the document root)
+# containing this .htaccess file
+#
+# RewriteBase /
+
+# custom error documents
+ErrorDocument 403 /403
+ErrorDocument 404 /404
+ErrorDocument 405 /405
+
+# block access to ini file and tmp directory
+RewriteRule \.phpsh$ - [R=404]
+
+# if no symlink, file or directory
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# rewrite request to index main controller
+RewriteRule .* index.php [L,QSA]
+
+# ???
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
