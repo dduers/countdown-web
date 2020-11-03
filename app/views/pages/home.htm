@@ -1,29 +1,33 @@
-
 <div class="row">
     <div class="col-md-12">
         <check if="@PARAMS.id">
             <false>
-                <form method="POST" action="/">
-                    <repeat group="@RESPONSE.form.fields" key="@key" value="@value">
-                        <check if="@value.type === 'button'">
-                            <true>
-                                <button name="{{ @value.name }}" class="btn btn-primary mt-4">{{ @value.label }}</button>
-                            </true>
-                            <false>
-                                <check if="@value.type === 'textarea'">
+                <div class="card">
+                    <div class="card-header">Create Countdown</div>
+                    <div class="card-body">
+                        <form method="POST" action="/">
+                            <repeat group="@RESPONSE.form.fields" key="@key" value="@value">
+                                <check if="@value.type === 'button'">
                                     <true>
-                                        <label for="{{ @value.name }}" class="mt-4">{{ @value.label }}</label>
-                                        <textarea name="{{ @value.name }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.readonly ? 'disabled' : '' }} class="form-control"></textarea>
+                                        <button name="{{ @value.name }}" class="btn btn-primary mt-4">{{ @value.label }}</button>
                                     </true>
                                     <false>
-                                        <label for="{{ @value.name }}" class="mt-4">{{ @value.label }}</label>
-                                        <input name="{{ @value.name }}" type="{{ @value.type }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.readonly ? 'disabled' : '' }} class="form-control">
+                                        <check if="@value.type === 'textarea'">
+                                            <true>
+                                                <label for="{{ @value.name }}" class="mt-4">{{ @value.label }}</label>
+                                                <textarea name="{{ @value.name }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.disabled ? 'disabled' : '' }} class="form-control"></textarea>
+                                            </true>
+                                            <false>
+                                                <label for="{{ @value.name }}" class="mt-4">{{ @value.label }}</label>
+                                                <input name="{{ @value.name }}" type="{{ @value.type }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.disabled ? 'disabled' : '' }} class="{{ @value.type !== 'file' ? 'form-control' : 'd-flex' }}">
+                                            </false>
+                                        </check>
                                     </false>
                                 </check>
-                            </false>
-                        </check>
-                    </repeat>
-                </form>
+                            </repeat>
+                        </form>
+                    </div>
+                </div>
             </false>
             <true>
                 <div class="card">
@@ -36,6 +40,5 @@
                 </div>
             </true>
         </check>
-
     </div>
 </div>    

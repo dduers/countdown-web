@@ -60,8 +60,13 @@
         <repeat group="{{ glob('js/m.*.js') }}" value="{{ @file }}">  
             <!-- {{ array_push(@TEMP1.template.userjsfiles, basename(@file)) }} -->
         </repeat>
-        <check if="{{ file_exists('js/c.home.js') }}"> 
+        <check if="@PARAMS.id"> 
+            <false>
             <!-- {{ array_push(@TEMP1.template.userjsfiles, 'c.home.js') }} -->
+            </false>
+            <true>
+                <!-- {{ array_push(@TEMP1.template.userjsfiles, 'c.countdown.js') }} -->
+            </true>
         </check>
         <check if="{{ file_exists('js/template.js') }}"> 
             <!-- {{ array_push(@TEMP1.template.userjsfiles, 'template.js') }} -->

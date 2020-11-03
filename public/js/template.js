@@ -19,12 +19,6 @@ jQuery(document).ready(function($) {
 		}
 		
     }, false);
-    
-    
-    $.fn.countdown({
-        container: $('.box-center')
-    });
-
 
 	/**
 	 * disable submit buttons on click
