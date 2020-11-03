@@ -19,7 +19,7 @@
                                             </true>
                                             <false>
                                                 <label for="{{ @value.name }}" class="mt-4">{{ @value.label }}</label>
-                                                <input name="{{ @value.name }}" type="{{ @value.type }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.disabled ? 'disabled' : '' }} class="{{ @value.type !== 'file' ? 'form-control' : 'd-flex' }}">
+                                                <input name="{{ @value.name }}" value="{{ @value.value }}" type="{{ @value.type }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.disabled ? 'disabled' : '' }} class="{{ @value.type !== 'file' ? 'form-control' : 'd-flex' }}">
                                             </false>
                                         </check>
                                     </false>
@@ -35,7 +35,9 @@
                     <div class="card-body">
                         <h5 class="card-title"></h5>
                         <p class="card-text"></p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <check if="@RESPONSE.data.url">
+                            <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
+                        </check>
                     </div>
                 </div>
             </true>

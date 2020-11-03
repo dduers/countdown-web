@@ -11,6 +11,10 @@ class home extends \classes\cms {
     {
         // if there is no countdown selected
         if (!($_record_id = self::$f3->get('PARAMS.id'))) {
+
+            $_datetime = new \DateTime();
+            $_datetime->modify('+1 day');
+
             self::$f3->set('RESPONSE.form.fields', [
                 [
                     'name' => 'title',
@@ -29,6 +33,14 @@ class home extends \classes\cms {
                     'label' => 'Description',
                 ],
                 [
+                    'name' => 'url',
+                    'type' => 'input',
+                    'readonly' => false,
+                    'disabled' => false,
+                    'required' => false,
+                    'label' => 'Website',
+                ],
+                [
                     'name' => 'picture',
                     'type' => 'file',
                     'readonly' => false,
@@ -43,6 +55,7 @@ class home extends \classes\cms {
                     'disabled' => false,
                     'required' => true,
                     'label' => 'Expiration Date',
+                    'value' => $_datetime->format('Y-m-d H:i'),
                 ],
                 [
                     'name' => 'submit',
@@ -69,6 +82,8 @@ class home extends \classes\cms {
         if (self::$f3->get('AJAX')) {
             self::$f3->set('RESPONSE.mime', 'application/json');
             self::$f3->set('RESPONSE.data', json_decode(file_get_contents(self::$f3->get('UPLOADS').$_record_id.'.json')));
+        } else {
+            self::$f3->set('RESPONSE.data', json_decode(file_get_contents(self::$f3->get('UPLOADS').$_record_id.'.json'), true));
         }
     }
 
@@ -80,6 +95,7 @@ class home extends \classes\cms {
         // sanitize posted values
         self::$f3->set('POST.title', self::$f3->clean(self::$f3->get('POST.title')));
         self::$f3->set('POST.description', nl2br(self::$f3->clean(self::$f3->get('POST.description'))));
+        self::$f3->set('POST.url', self::$f3->clean(self::$f3->get('POST.url')));
         self::$f3->set('POST.date', self::$f3->clean(self::$f3->get('POST.date')));
 
         // generate record id
