@@ -40,11 +40,8 @@
         </check>
     </head>
     <body id="{{ @PARAMS.page }}">
-        <include href="partials/navigation.htm" /> 
-         <main role="main" class="container"> 
-            <include href="partials/carousel.htm" />
-            <include href="partials/message.htm" />
-            <include href="{{ 'pages/'.@PARAMS.page.'.htm' }}" if="{{ file_exists(@UI.'pages/'.@PARAMS.page.'.htm') }}" /> 
+         <main role="main" class="container">
+            <include href="pages/home.htm" /> 
           </main> 
         <include href="partials/footer.htm" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -58,13 +55,13 @@
         <script src="//cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.16/af-2.2.2/b-1.5.1/b-colvis-1.5.1/b-html5-1.5.1/b-print-1.5.1/cr-1.4.1/fc-3.2.4/fh-3.1.3/kt-2.3.2/r-2.2.1/rg-1.0.2/rr-1.2.3/sc-1.4.4/sl-1.2.5/datatables.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js" integrity="sha256-eXdxIh/sjKTNi5WyC8cKHekwPywORiomyiMFyZsowWw=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.min.js" integrity="sha256-/irFIZmSo2CKXJ4rxHWfrI+yGJuI16Z005X/bENdpTY=" crossorigin="anonymous"></script>
-        <script src="https://npmcdn.com/flatpickr/dist/l10n/{{ @PARAMS.lang }}.js"></script>
+        <!-- <script src="https://npmcdn.com/flatpickr/dist/l10n/{{ @LANGUAGE }}.js"></script> -->
         <!-- {{ @TEMP1.template.userjsfiles = [] }} -->
         <repeat group="{{ glob('js/m.*.js') }}" value="{{ @file }}">  
             <!-- {{ array_push(@TEMP1.template.userjsfiles, basename(@file)) }} -->
         </repeat>
-        <check if="{{ file_exists('js/c.'.@PARAMS.page.'.js') }}"> 
-            <!-- {{ array_push(@TEMP1.template.userjsfiles, 'c.'.@PARAMS.page.'.js') }} -->
+        <check if="{{ file_exists('js/c.home.js') }}"> 
+            <!-- {{ array_push(@TEMP1.template.userjsfiles, 'c.home.js') }} -->
         </check>
         <check if="{{ file_exists('js/template.js') }}"> 
             <!-- {{ array_push(@TEMP1.template.userjsfiles, 'template.js') }} -->

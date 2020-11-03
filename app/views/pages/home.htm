@@ -1,177 +1,41 @@
-<div class="row">
-    <div class="col-md-12"> 
-        <div id="fi-news">
-        </div>
-    </div>
-</div>
 
 <div class="row">
-    <div class="col-md-6">
-        <div class="well">
-        <a href="/{{ @PARAMS.lang }}/statistics">
-            <h2 class="mt-5">{{ @DICT.home.quicklink_1_title }}</h2>
-            <p class="lead">{{ @DICT.home.quicklink_1_body }}</p> 
-            <p class="text-right"><a href="/{{ @PARAMS.lang }}/statistics" class="btn btn-lg btn-primary" role="button">{{ @DICT.home.quicklink_1_button }}</a></p>    
-          </a>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="well">
-            <a href="/{{ @PARAMS.lang }}/help">
-                <h2 class="mt-5">{{ @DICT.home.quicklink_2_title }}</h2>
-                <p class="lead">{{ @DICT.home.quicklink_2_body }}</p> 
-                <p class="text-right"><a href="/{{ @PARAMS.lang }}/help" class="btn btn-lg btn-primary" role="button">{{ @DICT.home.quicklink_2_button }}</a></p>    
-            </a>
-         </div>  
+    <div class="col-md-12">
+        <check if="@PARAMS.id">
+            <false>
+                <form method="POST" action="/">
+                    <repeat group="@RESPONSE.form.fields" key="@key" value="@value">
+                        <check if="@value.type === 'button'">
+                            <true>
+                                <button name="{{ @value.name }}" class="btn btn-primary mt-4">{{ @value.label }}</button>
+                            </true>
+                            <false>
+                                <check if="@value.type === 'textarea'">
+                                    <true>
+                                        <label for="{{ @value.name }}" class="mt-4">{{ @value.label }}</label>
+                                        <textarea name="{{ @value.name }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.readonly ? 'disabled' : '' }} class="form-control"></textarea>
+                                    </true>
+                                    <false>
+                                        <label for="{{ @value.name }}" class="mt-4">{{ @value.label }}</label>
+                                        <input name="{{ @value.name }}" type="{{ @value.type }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.readonly ? 'disabled' : '' }} class="form-control">
+                                    </false>
+                                </check>
+                            </false>
+                        </check>
+                    </repeat>
+                </form>
+            </false>
+            <true>
+                <div class="card">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+                        <p class="card-text"></p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </true>
+        </check>
+
     </div>
 </div>    
-<!--
-<div class="row">
-    <div class="col-md-12">
-        <div class="well">
-            <h2 class="mt-5">{{ @DICT.home.quicklink_3_title }}</h2>
-            <p class="lead">{{ @DICT.home.quicklink_3_body }}</p> 
-            <p class="text-right">
-                <a href="/{{ @PARAMS.lang }}/mark" class="btn btn-lg btn-primary" role="button">{{ @DICT.home.quicklink_3_button_1 }}</a> 
-                <a href="/{{ @PARAMS.lang }}/markregister" class="btn btn-lg btn-primary" role="button">{{ @DICT.home.quicklink_3_button_2 }}</a>
-                <a href="/{{ @PARAMS.lang }}/markreport?domain=public" class="btn btn-lg btn-primary" role="button">{{ @DICT.home.quicklink_3_button_3 }}</a>
-            </p> 
-        </div>
-    </div>
-</div>   
--->
-<div class="row">
-    <div class="col-md-6">
-        <div class="card well"> 
-            <div class="row">
-                <div class="col-sm-6">
-                    <img class="card-img-top" src="images/home-fischkonsum.jpg">
-                   </div> 
-                <div class="col-sm-6">
-                    <div class="card-body"> 
-                        <p class="card-text">{{ @DICT.home.card_1_body }}</p>
-                        <a href="/{{ @PARAMS.lang }}/fishing/import" class="btn btn-sm btn-primary">{{ @DICT.home.card_1_title }}</a>
-                    </div>
-                </div> 
-            </div>
-        </div>
-      </div> 
-    <div class="col-md-6">
-        <div class="card well"> 
-            <div class="row">
-                <div class="col-sm-6">
-                    <img class="card-img-top" src="images/home-berufsfischer.jpg">
-                   </div> 
-                <div class="col-sm-6">
-                    <div class="card-body"> 
-                        <p class="card-text">{{ @DICT.home.card_2_body }}</p>
-                        <a href="/{{ @PARAMS.lang }}/fishing/professionals" class="btn btn-sm btn-primary">{{ @DICT.home.card_2_title }}</a>
-                    </div>
-                </div> 
-            </div>
-        </div>
-      </div> 
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="card well"> 
-            <div class="row">
-                <div class="col-sm-6">
-                    <img class="card-img-top" src="images/home-angelfischerei.jpg">
-                   </div> 
-                <div class="col-sm-6">
-                    <div class="card-body"> 
-                        <p class="card-text">{{ @DICT.home.card_3_body }}</p>
-                        <a href="/{{ @PARAMS.lang }}/fishing/rodfishing" class="btn btn-sm btn-primary">{{ @DICT.home.card_3_title }}</a>
-                    </div>
-                </div> 
-            </div>
-        </div>
-      </div> 
-</div>
-
-<div class="row">
-    <div class="col-md-6">
-        <div class="card well"> 
-            <div class="row">
-                <div class="col-sm-6">
-                    <img class="card-img-top" src="images/home-besatz.jpg">
-                   </div> 
-                <div class="col-sm-6">
-                    <div class="card-body"> 
-                        <p class="card-text">{{ @DICT.home.card_4_body }}</p>
-                        <a href="/{{ @PARAMS.lang }}/fishing/population" class="btn btn-sm btn-primary">{{ @DICT.home.card_4_title }}</a>
-                    </div>
-                </div> 
-            </div>
-        </div>
-      </div> 
-    <div class="col-md-6">
-        <div class="card well"> 
-            <div class="row">
-                <div class="col-sm-6">
-                    <img class="card-img-top" src="images/home-fischsterben.jpg">
-                   </div> 
-                <div class="col-sm-6">
-                    <div class="card-body"> 
-                        <p class="card-text">{{ @DICT.home.card_5_body }}</p>
-                        <a href="/{{ @PARAMS.lang }}/statistics?tt=2" class="btn btn-sm btn-primary">{{ @DICT.home.card_5_title }}</a>
-                    </div>
-                </div> 
-            </div>
-        </div>
-      </div> 
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="card well"> 
-            <div class="row">
-                <div class="col-sm-6">
-                    <img class="card-img-top" src="images/home-ezg32.jpg">
-                   </div> 
-                <div class="col-sm-6">
-                    <div class="card-body"> 
-                        <p class="card-text">{{ @DICT.home.card_6_body }}</p>
-                        <a href="/{{ @PARAMS.lang }}/fishing/geoinfo" class="btn btn-sm btn-primary">{{ @DICT.home.card_6_title }}</a>
-                    </div>
-                </div> 
-            </div>
-        </div>
-      </div> 
-</div>
-
-
-<div class="row">
-    <div class="col-md-6">
-        <div class="card well"> 
-            <div class="row">
-                <div class="col-sm-6">
-                    <img class="card-img-top" src="images/home-fischarten.jpg">
-                   </div> 
-                <div class="col-sm-6">
-                    <div class="card-body"> 
-                        <p class="card-text">{{ @DICT.home.card_7_body }}</p>
-                        <a href="/{{ @PARAMS.lang }}/fishing/species" class="btn btn-sm btn-primary">{{ @DICT.home.card_7_title }}</a>
-                    </div>
-                </div> 
-            </div>
-        </div>
-      </div> 
-    <div class="col-md-6">
-        <div class="card well"> 
-            <div class="row">
-                <div class="col-sm-6">
-                    <img class="card-img-top" src="images/home-krebs.jpg">
-                   </div> 
-                <div class="col-sm-6">
-                    <div class="card-body"> 
-                        <p class="card-text">{{ @DICT.home.card_8_body }}</p>
-                        <a href="/{{ @PARAMS.lang }}/fishing/cancer" class="btn btn-sm btn-primary">{{ @DICT.home.card_8_title }}</a>
-                    </div>
-                </div> 
-            </div>
-        </div>
-      </div> 
-</div>

@@ -18,7 +18,12 @@ jQuery(document).ready(function($) {
 			// window.location.href = event.state.url;
 		}
 		
-	}, false);
+    }, false);
+    
+    
+    $.fn.countdown({
+        container: $('.box-center')
+    });
 
 
 	/**
