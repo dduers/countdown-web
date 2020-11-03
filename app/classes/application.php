@@ -8,11 +8,17 @@ class application
     // instance of the f3-framework
     static protected $f3;
 
+    // web class
+    static protected $wb;
+
     //! Instantiate class
     function __construct()
     {
         // store framework instance locally
         self::$f3 = \Base::instance();
+
+        // store fwebclass instance
+        self::$wb = \Web::instance();
     }
 
     //! HTTP route pre-processor:
@@ -27,12 +33,6 @@ class application
 
         // set default response mime
         self::$f3->set('RESPONSE.mime', 'text/html');
-
-        // parse put variables
-        parse_str(file_get_contents("php://input"), $put_vars);
-
-        // store put variables to global array 'PUT'
-        self::$f3->set('PUT', $put_vars);
     }
 
     //! HTTP route post-processor

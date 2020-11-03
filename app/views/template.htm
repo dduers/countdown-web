@@ -28,7 +28,7 @@
                             <div class="card">
                                 <div class="card-header">Create Countdown</div>
                                 <div class="card-body">
-                                    <form method="POST" action="/">
+                                    <form method="POST" action="/" enctype="multipart/form-data">
                                         <repeat group="@RESPONSE.form.fields" key="@key" value="@value">
                                             <check if="@value.type === 'button'">
                                                 <true>
@@ -58,10 +58,28 @@
                                     <div class="card">
                                         <div class="card-header"></div>
                                         <div class="card-body">
-                                            <h5 class="card-title">{{ @RESPONSE.data.title }}</h5>
-                                            <p class="card-text">{{ @RESPONSE.data.description | raw }}</p>
-                                            <check if="@RESPONSE.data.url">
-                                                <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
+                                            <check if="file_exists('images/'.@PARAMS['id'].'.jpg')">
+                                                <true>
+                                                    <dic class="row">
+                                                        <div class="col-md-8">
+                                                            <h5 class="card-title">{{ @RESPONSE.data.title }}</h5>
+                                                            <p class="card-text">{{ @RESPONSE.data.description | raw }}</p>
+                                                            <check if="@RESPONSE.data.url">
+                                                                <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
+                                                            </check>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <img src="{{ 'images/'.@PARAMS['id'].'.jpg' }}" class="img-fluid">
+                                                        </div>
+                                                    </dic>
+                                                </true>
+                                                <false>
+                                                    <h5 class="card-title">{{ @RESPONSE.data.title }}</h5>
+                                                    <p class="card-text">{{ @RESPONSE.data.description | raw }}</p>
+                                                    <check if="@RESPONSE.data.url">
+                                                        <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
+                                                    </check>
+                                                </false>
                                             </check>
                                         </div>
                                     </div>

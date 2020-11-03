@@ -81,10 +81,9 @@ class home extends \classes\application {
 
         if (self::$f3->get('AJAX')) {
             self::$f3->set('RESPONSE.mime', 'application/json');
-            self::$f3->set('RESPONSE.data', json_decode(file_get_contents(self::$f3->get('UPLOADS').$_record_id.'.json')));
-        } else {
-            self::$f3->set('RESPONSE.data', json_decode(file_get_contents(self::$f3->get('UPLOADS').$_record_id.'.json'), true));
         }
+        
+        self::$f3->set('RESPONSE.data', json_decode(file_get_contents(self::$f3->get('UPLOADS').$_record_id.'.json'), true));
     }
 
     /**
@@ -100,6 +99,89 @@ class home extends \classes\application {
 
         // generate record id
         $_record_id = $this->randomString();
+
+        self::$f3->set('TEMP1.recordid', $_record_id);
+
+        // if a file was given for updload
+        if (file_exists(self::$f3->get('FILES.picture.tmp_name'))) {
+
+            // flag to overwrite existing files
+            $_overwrite = true;
+
+            // upload files
+            $_files = self::$wb->receive(function($file_, $formFieldName_) 
+            { 
+                // check filename
+                $_ext = substr($file_['name'], strrpos($file_['name'], '.'));
+                
+                // if it is not an jpg file
+                if ($_ext <> '.jpg') {
+                
+                    // save message for usage in template
+                    self::$f3->push('SESSION.message', array(
+                        'type' => 'danger',
+                        'text' => self::$f3->get('DICT.nojpgfile'),					
+                    ));	
+                    
+                    // block fileupload
+                    return false; 
+                }
+                
+                // return true moves the file to the upload folder
+                return true;
+            }, 
+            $_overwrite, 
+            function($slug_)
+            {
+                // get extension of the file
+                $_ext = substr($slug_, strrpos($slug_, '.')); 
+ 
+                // make filename (relative to upload directory)
+                self::$f3->set('TEMP1.picturefilename',
+                    '..'
+                    .DIRECTORY_SEPARATOR.'public' 
+                    .DIRECTORY_SEPARATOR.'images'
+                    .DIRECTORY_SEPARATOR.self::$f3->get('TEMP1.recordid').$_ext
+                );
+
+                // move uploaded file
+                return self::$f3->get('TEMP1.picturefilename');  
+            }); 
+
+            // if file was not found
+            if (!file_exists(self::$f3->get('TEMP1.picturefilename'))) {
+
+                self::$f3->push('SESSION.message', array(
+                    'type' => 'danger',
+                    'text' => self::$f3->get('DICT.uploaderror'),					
+                ));	
+
+                self::$f3->reroute('/');
+                return;
+            }
+
+            // resize image for usage in the shop
+            $_image = new \Image(self::$f3->get('TEMP1.picturefilename'));
+
+            // resize to width
+            $_image->resize(250);
+
+            // save the image 
+            self::$f3->write(
+                self::$f3->get('TEMP1.picturefilename'), 
+                $_image->dump('jpeg', 100)
+            );
+
+        } else {
+
+            self::$f3->push('SESSION.message', array(
+                'type' => 'danger',
+                'text' => self::$f3->get('DICT.uploaderror'),					
+            ));	
+
+            self::$f3->reroute('/');
+            return;
+        }
 
         // write json file with data
         file_put_contents(self::$f3->get('UPLOADS').$_record_id.'.json', json_encode(self::$f3->get('POST')));
