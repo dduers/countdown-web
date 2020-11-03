@@ -13,7 +13,7 @@
 		var api = {}; 
 		var settings = $.extend(true, {}, defaults, options);
 
-		var countdownDate = new Date("Jan 5, 2021 15:37:25").getTime();
+		var countdownDate;
 	 
 		var init = function() {
 			build(); 
@@ -49,12 +49,9 @@
 		var build = function() {
 			$.ajax({ 
 				url: window.location.href, 
-				success: function(data) { 
-					console.log(data);
+				success: function(data) {  
 					countdownDate = new Date(data.date).getTime();
-					//$('.card-header').html(data.date); 
-					$('.card-title').html(data.title); 
-					$('.card-text').html(data.description); 
+					updateTime();
 				}, 
 			});
 		};

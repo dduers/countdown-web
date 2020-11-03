@@ -102,7 +102,7 @@ class home extends \classes\cms {
         $_record_id = $this->randomString();
 
         // write json file with data
-        file_put_contents(self::$f3->get('UPLOADS').$_record_id.'.json', json_encode(self::$f3->get('POST')));+
+        file_put_contents(self::$f3->get('UPLOADS').$_record_id.'.json', json_encode(self::$f3->get('POST')));
 
         // reroute to the countdown
         self::$f3->reroute('/'.$_record_id);
