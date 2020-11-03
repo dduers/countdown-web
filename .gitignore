@@ -1,4 +1,3 @@
-/app/config/*.ini
 /tmp/cache
 /tmp/logs
 /tmp/*.php
