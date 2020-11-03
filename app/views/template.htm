@@ -1,16 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ @PARAMS.lang }}">
     <head>
-        <check if="{{ @frontend.website.googleanalyticsid != '' }}"> 
-            <script async src="https://www.googletagmanager.com/gtag/js?id={{ @frontend.website.googleanalyticsid }}"></script>
-            <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date()); 
-                gtag('config', '{{ @frontend.website.googleanalyticsid }}');
-            </script>
-        </check>
-        <meta charset="{{ $ENCODING }}" />
+        <meta charset="{{ @ENCODING }}" />
         <meta name="description" content="{{ @DICT.meta.description }}">
         <meta name="author" content="{{ @DICT.meta.author }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,56 +12,94 @@
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans"> 
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto+Slab"> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highcharts/7.2.0/css/highcharts.css" integrity="sha256-syQKIUWHRkeA/hEtHk0OQ9Salmjt0pfv7Jb3kfEuNBU=" crossorigin="anonymous" />
-        <link rel="stylesheet" href="//cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.16/af-2.2.2/b-1.5.1/b-colvis-1.5.1/b-html5-1.5.1/b-print-1.5.1/cr-1.4.1/fc-3.2.4/fh-3.1.3/kt-2.3.2/r-2.2.1/rg-1.0.2/rr-1.2.3/sc-1.4.4/sl-1.2.5/datatables.min.css"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css" integrity="sha256-nv5vSBJAzPy+07+FvRvhV2UPpH87H/UnWMrA6nbEg7U=" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.min.css" integrity="sha256-Zh4AVwxlwpUo2c5u4Z5emTmYZxbCk972ewf4tqGRsBg=" crossorigin="anonymous" />
         <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
-        <!-- {{ @TEMP1.template.usercssfiles = [] }} --> 
-        <check if="{{ file_exists('css/template.css') }}">
-            <!-- {{ array_push(@TEMP1.template.usercssfiles, 'template.css') }} -->
-        </check> 
-        <check if="{{ @SESSION.user != '' && file_exists('css/template.intern.css') }}">
-            <!-- {{ array_push(@TEMP1.template.usercssfiles, 'template.intern.css') }} -->
-        </check> 
-        <link rel="stylesheet" type="text/css" href="/m/css?files={{ implode(',', @TEMP1.template.usercssfiles) }}" />
-        <check if="{{ @recaptcha.enable !== 0 }}"> 
-            <script src='https://www.google.com/recaptcha/api.js' async defer></script>
-        </check>
+        <link rel="stylesheet" type="text/css" href="css/template.css" />
     </head>
     <body id="{{ @PARAMS.page }}">
-         <main role="main" class="container">
-            <include href="pages/home.htm" /> 
-          </main> 
-        <include href="partials/footer.htm" />
+         <main role="main" class="container mt-5">
+            <repeat group="@SESSION.message" key="@key" value="@value">
+                <div class="alert alert-{{ @value.type }}" role="alert">{{ @value.text }}</div>
+            </repeat>
+            <div class="row">
+                <div class="col-md-12">
+                    <check if="@PARAMS.id">
+                        <false>
+                            <div class="card">
+                                <div class="card-header">Create Countdown</div>
+                                <div class="card-body">
+                                    <form method="POST" action="/">
+                                        <repeat group="@RESPONSE.form.fields" key="@key" value="@value">
+                                            <check if="@value.type === 'button'">
+                                                <true>
+                                                    <button name="{{ @value.name }}" class="btn btn-primary mt-4">{{ @value.label }}</button>
+                                                </true>
+                                                <false>
+                                                    <check if="@value.type === 'textarea'">
+                                                        <true>
+                                                            <label for="{{ @value.name }}" class="mt-4">{{ @value.label }}</label>
+                                                            <textarea name="{{ @value.name }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.disabled ? 'disabled' : '' }} class="form-control"></textarea>
+                                                        </true>
+                                                        <false>
+                                                            <label for="{{ @value.name }}" class="mt-4">{{ @value.label }}</label>
+                                                            <input name="{{ @value.name }}" value="{{ @value.value }}" type="{{ @value.type }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.disabled ? 'disabled' : '' }} class="{{ @value.type !== 'file' ? 'form-control' : 'd-flex' }}">
+                                                        </false>
+                                                    </check>
+                                                </false>
+                                            </check>
+                                        </repeat>
+                                    </form>
+                                </div>
+                            </div>
+                        </false>
+                        <true>
+                            <check if="@ERROR.code">
+                                <false>
+                                    <div class="card">
+                                        <div class="card-header"></div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ @RESPONSE.data.title }}</h5>
+                                            <p class="card-text">{{ @RESPONSE.data.description | raw }}</p>
+                                            <check if="@RESPONSE.data.url">
+                                                <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
+                                            </check>
+                                        </div>
+                                    </div>
+                                </false>
+                                <true>
+                                    <div class="card">
+                                        <div class="card-header">{{ @ERROR.code }}</div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ @DICT.notfoundtitle }}</h5>
+                                            <p class="card-text">{{ @DICT.notfoundtext }}</p>
+                                        </div>
+                                    </div>
+                                </true>
+                            </check>
+                        </true>
+                    </check>
+                </div>
+            </div>  
+        </main> 
+        <footer class="footer"> 
+            <div class="container mt-5"> 
+                <p class="text-center"><a href="/">Create Countdown</a></p>
+            </div>
+        </footer>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js" integrity="sha256-fTuUgtT7O2rqoImwjrhDgbXTKUwyxxujIMRIK7TbuNU=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/7.2.0/highcharts.js" integrity="sha256-pWlJ6y5bcww1f1YFl+ak3DjzWUFtLTiy1u1amuLuSfA=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/7.2.0/modules/exporting.js" integrity="sha256-3UOymeFE4O/10n+vIHKnnjTeSmjlHH3Nw4xiUx9pwpI=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/7.2.0/highcharts-more.js" integrity="sha256-OwtUS01uzj8BVU3iLGBwTLx6kE8+s0o/89Ce/nZMfKg=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.60/pdfmake.min.js" integrity="sha256-DgMKT/pyAKjuP9wB3FRJa8IAVMWlWYjUFfd3UgSCtU0=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.60/vfs_fonts.js" integrity="sha256-UsYCHdwExTu9cZB+QgcOkNzUCTweXr5cNfRlAAtIlPY=" crossorigin="anonymous"></script>
-        <script src="//cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.16/af-2.2.2/b-1.5.1/b-colvis-1.5.1/b-html5-1.5.1/b-print-1.5.1/cr-1.4.1/fc-3.2.4/fh-3.1.3/kt-2.3.2/r-2.2.1/rg-1.0.2/rr-1.2.3/sc-1.4.4/sl-1.2.5/datatables.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js" integrity="sha256-eXdxIh/sjKTNi5WyC8cKHekwPywORiomyiMFyZsowWw=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.min.js" integrity="sha256-/irFIZmSo2CKXJ4rxHWfrI+yGJuI16Z005X/bENdpTY=" crossorigin="anonymous"></script>
-        <!-- <script src="https://npmcdn.com/flatpickr/dist/l10n/{{ @LANGUAGE }}.js"></script> -->
-        <!-- {{ @TEMP1.template.userjsfiles = [] }} -->
-        <repeat group="{{ glob('js/m.*.js') }}" value="{{ @file }}">  
-            <!-- {{ array_push(@TEMP1.template.userjsfiles, basename(@file)) }} -->
-        </repeat>
         <check if="@PARAMS.id"> 
             <false>
-            <!-- {{ array_push(@TEMP1.template.userjsfiles, 'c.home.js') }} -->
+                <script type="text/javascript" src="js/home.js"></script>
             </false>
             <true>
-                <!-- {{ array_push(@TEMP1.template.userjsfiles, 'c.countdown.js') }} -->
+                <check if="!@ERROR.code">
+                    <script type="text/javascript" src="js/countdown.js"></script>
+                </check>
             </true>
         </check>
-        <check if="{{ file_exists('js/template.js') }}"> 
-            <!-- {{ array_push(@TEMP1.template.userjsfiles, 'template.js') }} -->
-        </check>
-        <script type="text/javascript" src="/m/js?files={{ implode(',', @TEMP1.template.userjsfiles) }}"></script>
+        <script type="text/javascript" src="js/template.js"></script>
     </body>
 </html>

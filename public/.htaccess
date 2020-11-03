@@ -10,14 +10,6 @@ RewriteEngine On
 #
 # RewriteBase /
 
-# custom error documents
-ErrorDocument 403 /403
-ErrorDocument 404 /404
-ErrorDocument 405 /405
-
-# block access to ini file and tmp directory
-RewriteRule \.phpsh$ - [R=404]
-
 # if no symlink, file or directory
 RewriteCond %{REQUEST_FILENAME} !-l
 RewriteCond %{REQUEST_FILENAME} !-f

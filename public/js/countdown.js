@@ -4,19 +4,24 @@
 (function($) {
 	
 	// page controller
-	$.fn.controller = function(options, callback) {
+	$.fn.controller = function(options) {
  
 		var defaults = {  
 			interval: 1000,	 
 		};
-		
-		var api = {}; 
+
 		var settings = $.extend(true, {}, defaults, options);
 
 		var countdownDate;
 	 
 		var init = function() {
-			build(); 
+			$.ajax({ 
+				url: window.location.href, 
+				success: function(data) {  
+					countdownDate = new Date(data.date).getTime();
+					updateTime();
+				}, 
+			});
 		};
 
 		/**
@@ -45,21 +50,10 @@
 			  	$('.card-header').html('EXPIRED');
 			}
 		};
-		
-		var build = function() {
-			$.ajax({ 
-				url: window.location.href, 
-				success: function(data) {  
-					countdownDate = new Date(data.date).getTime();
-					updateTime();
-				}, 
-			});
-		};
-	 
+
 		setInterval(updateTime, settings.interval);
 	
-		init();  
-		return api; 
+		init(); 
 	};
 
 })($);
