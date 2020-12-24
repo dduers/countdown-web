@@ -6,6 +6,13 @@
         <meta name="author" content="{{ @DICT.meta.author }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <check if="@PARAMS.id">
+            <meta property="og:title" content="{{ @RESPONSE.data.title }}"/>
+            <meta property="og:description" content="{{ @RESPONSE.data.description }}"/>
+            <meta property="og:image" content="{{ @SCHEME }}://{{ @HOST }}{{ ':'.@PORT }}{{ @BASE }}/images/{{ @PARAMS.id }}.jpg"/>
+            <meta property="og:url" content="{{ @SCHEME }}://{{ @HOST }}/{{ @PARAMS.id }}"/>
+            <meta property="og:type" content="article"/>
+        </check>
         <title>{{ @DICT.meta.title }}</title>
         <base href="{{ @SCHEME }}://{{ @HOST }}{{ ':'.@PORT }}{{ @BASE }}/" />
         <link rel="icon" href="images/favicon.ico">
@@ -15,12 +22,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.min.css" integrity="sha256-Zh4AVwxlwpUo2c5u4Z5emTmYZxbCk972ewf4tqGRsBg=" crossorigin="anonymous" />
         <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
         <link rel="stylesheet" type="text/css" href="css/template.css" />
-        <check if="@PARAMS.id">
-            <meta property="og:type" content="article">
-            <meta property="og:image" content="{{ @SCHEME }}://{{ @HOST }}{{ ':'.@PORT }}{{ @BASE }}/images/{{ @PARAMS.id }}.jpg">
-            <meta property="og:title" content="{{ @RESPONSE.data.title }}">
-            <meta property="og:description" content="{{ @RESPONSE.data.description | raw }}">
-        </check>
     </head>
     <body id="{{ @PARAMS.page }}">
          <main role="main" class="container mt-5">
