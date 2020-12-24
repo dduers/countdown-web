@@ -15,6 +15,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.min.css" integrity="sha256-Zh4AVwxlwpUo2c5u4Z5emTmYZxbCk972ewf4tqGRsBg=" crossorigin="anonymous" />
         <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
         <link rel="stylesheet" type="text/css" href="css/template.css" />
+        <check if="@PARAMS.id">
+            <meta property="og:image" content="{{ @SCHEME }}://{{ @HOST }}{{ ':'.@PORT }}{{ @BASE }}/images/{{ @PARAMS.id }}.jpg">
+        </check>
     </head>
     <body id="{{ @PARAMS.page }}">
          <main role="main" class="container mt-5">
