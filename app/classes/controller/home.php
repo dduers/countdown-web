@@ -93,7 +93,7 @@ class home extends \classes\application {
     {
         // sanitize posted values
         self::$f3->set('POST.title', self::$f3->clean(self::$f3->get('POST.title')));
-        self::$f3->set('POST.description', nl2br(self::$f3->clean(self::$f3->get('POST.description'))));
+        self::$f3->set('POST.description', self::$f3->clean(nl2br(self::$f3->clean(self::$f3->get('POST.description'))), 'br'));
         self::$f3->set('POST.url', self::$f3->clean(self::$f3->get('POST.url')));
         self::$f3->set('POST.date', self::$f3->clean(self::$f3->get('POST.date')));
 
