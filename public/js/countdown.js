@@ -13,6 +13,7 @@
 		var settings = $.extend(true, {}, defaults, options);
 
 		var countdownDate;
+		var timer;
 	 
 		var init = function() {
 			$.ajax({ 
@@ -20,6 +21,7 @@
 				success: function(data) {  
 					countdownDate = new Date(data.date).getTime();
 					updateTime();
+					timer = setInterval(updateTime, settings.interval);
 				}, 
 			});
 		};
@@ -46,12 +48,12 @@
 		  
 			// If the count down is finished, write some text
 			if (distance < 0) {
-			  	clearInterval(updateTime);
+			  	clearInterval(timer);
 			  	$('.card-header').html('EXPIRED');
 			}
 		};
 
-		setInterval(updateTime, settings.interval);
+		
 	
 		init(); 
 	};
