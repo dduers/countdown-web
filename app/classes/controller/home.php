@@ -99,6 +99,8 @@ class home extends \classes\application {
 
         // generate record id
         $_record_id = $this->randomString();
+        while (file_exists(self::$f3->get('UPLOADS').$_record_id.'.json'))
+            $_record_id = $this->randomString();
 
         self::$f3->set('TEMP1.recordid', $_record_id);
 
@@ -171,16 +173,6 @@ class home extends \classes\application {
                 self::$f3->get('TEMP1.picturefilename'), 
                 $_image->dump('jpeg', 100)
             );
-
-        } else {
-
-            self::$f3->push('SESSION.message', array(
-                'type' => 'danger',
-                'text' => self::$f3->get('DICT.uploaderror'),					
-            ));	
-
-            self::$f3->reroute('/');
-            return;
         }
 
         // write json file with data
