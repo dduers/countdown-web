@@ -16,7 +16,10 @@
         <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
         <link rel="stylesheet" type="text/css" href="css/template.css" />
         <check if="@PARAMS.id">
+            <meta property="og:type" content="article">
             <meta property="og:image" content="{{ @SCHEME }}://{{ @HOST }}{{ ':'.@PORT }}{{ @BASE }}/images/{{ @PARAMS.id }}.jpg">
+            <meta property="og:title" content="{{ @RESPONSE.data.title }}">
+            <meta property="og:description" content="{{ @RESPONSE.data.description | raw }}">
         </check>
     </head>
     <body id="{{ @PARAMS.page }}">
