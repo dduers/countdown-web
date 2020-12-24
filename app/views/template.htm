@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <check if="@PARAMS.id && !@ERROR.code">
+            <meta name="twitter:card" content="summary"/>
             <meta property="og:title" content="{{ @RESPONSE.data.title }}"/>
             <meta property="og:description" content="{{ @RESPONSE.data.description }}"/>
             <meta property="og:image" content="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/images/{{ @PARAMS.id }}.jpg"/>
