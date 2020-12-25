@@ -21,7 +21,7 @@
                 url: window.location.href, 
                 success: function(data) {
                     serverData = data;
-                    countdownDate = new Date(countdownDate.date).getTime();
+                    countdownDate = new Date(serverData.date).getTime();
                     timer = setInterval(updateTime, settings.interval);
                     updateTime();
                 }, 

@@ -50,7 +50,7 @@
                                                         </true>
                                                         <false>
                                                             <label for="{{ @value.name }}" class="mt-4">{{ @value.label }}</label>
-                                                            <input name="{{ @value.name }}" value="{{ @value.value }}" type="{{ @value.type }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.disabled ? 'disabled' : '' }} class="{{ @value.type !== 'file' ? 'form-control' : 'd-flex' }}">
+                                                            <input name="{{ @value.name }}" value="{{ @value.value }}" type="{{ @value.type }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.disabled ? 'disabled' : '' }} class="{{ @value.type !== 'file' ? 'form-control' : 'form-control-file' }}">
                                                         </false>
                                                     </check>
                                                 </false>
@@ -109,7 +109,7 @@
         </main> 
         <footer class="footer"> 
             <div class="container mt-5"> 
-                <p class="text-center"><a href="/">Create Countdown</a></p>
+                <p class="text-center"><a href="/">Create Countdown</a> | <a href="https://www.xsite.ch">XSite Web Development & Design</a></p>
             </div>
         </footer>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
