@@ -58,6 +58,14 @@ class home extends \classes\application {
                     'value' => $_datetime->format('Y-m-d H:i'),
                 ],
                 [
+                    'name' => 'goodbye',
+                    'type' => 'text',
+                    'readonly' => false,
+                    'disabled' => false,
+                    'required' => true,
+                    'label' => 'Goodbye-Text (When countdown expired)',
+                ],
+                [
                     'name' => 'submit',
                     'type' => 'button',
                     'readonly' => false,
