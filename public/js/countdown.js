@@ -23,6 +23,7 @@
                     serverData = data;
                     countdownDate = new Date(serverData.date).getTime();
                     timer = setInterval(updateTime, settings.interval);
+                    $('title').text($('title').text() + ' - ' + serverData.title);
                     updateTime();
                 }, 
             });

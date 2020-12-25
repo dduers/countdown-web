@@ -6,6 +6,8 @@
 	// page controller
 	$.fn.controller = function() {
 
+		var api = {};
+
 		// initialize controls with server default values
 		var init = function() {
 
