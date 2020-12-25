@@ -10,7 +10,9 @@
             <meta name="twitter:card" content="summary"/>
             <meta property="og:title" content="{{ @RESPONSE.data.title }}"/>
             <meta property="og:description" content="{{ @RESPONSE.data.description }}"/>
-            <meta property="og:image" content="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/images/{{ @PARAMS.id }}.jpg"/>
+            <check if="file_exists('images/'.@PARAMS['id'].'.jpg')">
+                <meta property="og:image" content="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/images/{{ @PARAMS.id }}.jpg"/>
+            </check>
             <meta property="og:url" content="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/{{ @PARAMS.id }}"/>
             <meta property="og:type" content="article"/>
         </check>
