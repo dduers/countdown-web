@@ -61,7 +61,7 @@ class countdown
             {
                 // get extension of the file
                 $_ext = substr($slug_, strrpos($slug_, '.')); 
-                return $this->_f3->get('UPLOADS').'../public/images/'.$_id_countdown.$_ext; 
+                return $this->_f3->get('UPLOADS').'../public/images/c/'.$_id_countdown.$_ext; 
             }); 
 
             $_filename = array_keys($_files)[0];

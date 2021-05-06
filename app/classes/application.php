@@ -32,6 +32,9 @@ class application extends \Prefab
         $f3_->set('LANGUAGE', 'en');
         // set default response mime
         $f3_->set('RESPONSE.mime', 'text/html');
+        // set default page
+        if (!$f3_->get('PARAMS.page'))
+            $f3_->set('PARAMS.page', 'home');
     }
 
     //! HTTP route post-processor
