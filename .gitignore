@@ -4,4 +4,4 @@
 /uploads/*.jpg
 /uploads/*.json
 /vendor
-/public/images/*.jpg
+/public/images/c/*

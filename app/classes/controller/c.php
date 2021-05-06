@@ -6,6 +6,9 @@ class c extends \classes\application
 {
     private $_model_countdown;
 
+    /**
+     * common for all methods
+     */
     function commonTasks()
     {
         $this->_model_countdown = new \classes\model\countdown();
