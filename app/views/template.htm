@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ @PARAMS.lang }}">
+<html lang="{{ @LANGUAGE }}">
     <head>
         <meta charset="{{ @ENCODING }}" />
         <meta name="description" content="{{ @DICT.meta.description }}">
@@ -19,11 +19,9 @@
         <title>{{ @DICT.meta.title }}</title>
         <base href="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/" />
         <link rel="icon" href="images/favicon.ico">
-        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans"> 
-        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto+Slab"> 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.min.css" integrity="sha256-Zh4AVwxlwpUo2c5u4Z5emTmYZxbCk972ewf4tqGRsBg=" crossorigin="anonymous" />
-        <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta3/css/bootstrap.min.css" integrity="sha512-N415hCJJdJx+1UBfULt+i+ihvOn42V/kOjOpp1UTh4CZ70Hx5bDlKryWaqEKfY/8EYOu/C2MuyaluJryK1Lb5Q==" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.css" integrity="sha512-OtwMKauYE8gmoXusoKzA/wzQoh7WThXJcJVkA29fHP58hBF7osfY0WLCIZbwkeL9OgRCxtAfy17Pn3mndQ4PZQ==" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/themes/airbnb.min.css" integrity="sha512-s0ZrPrgzmwoIlxJR7XKxtUbqRm103b8HS0wOnWnJSsKO1prue4aGp1XJRGl9OADSKygpFcCQ/xlieqQ773/aAw==" crossorigin="anonymous" />
         <link rel="stylesheet" type="text/css" href="css/template.css" />
     </head>
     <body id="{{ @PARAMS.page }}">
@@ -31,93 +29,97 @@
             <repeat group="@SESSION.message" key="@key" value="@value">
                 <div class="alert alert-{{ @value.type }}" role="alert">{{ @value.text }}</div>
             </repeat>
-            <div class="row">
-                <div class="col-md-12">
-                    <check if="@PARAMS.id">
+
+            <check if="@PARAMS.id">
+                <false>
+                    <div class="card">
+                        <div class="card-header"><h2>{{ @DICT.createcountdown }}</h2></div>
+                        <div class="card-body">
+                            <form method="POST" action="/" enctype="multipart/form-data">
+                                <div class="form-floating mb-3">
+                                    <input name="title" class="form-control" id="floatingTitle" placeholder="Title" required>
+                                    <label for="floatingTitle">Title</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <textarea name="description" class="form-control" id="floatingDescription" placeholder="Description" required></textarea>
+                                    <label for="floatingDescription">Description</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input name="url" type="url" class="form-control" id="floatingWebsite" placeholder="Website">
+                                    <label for="floatingWebsite">Website</label>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Picture</label>
+                                    <input name="picture" class="form-control" type="file" id="formFile">
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input name="date" class="form-control" id="floatingDate" placeholder="Expiration Date" required>
+                                    <label for="floatingDate">Expiration Date</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input name="goodbye" class="form-control" id="floatingGoodbye" placeholder="Expiration Text" required>
+                                    <label for="floatingGoodbye">Expiration Text</label>
+                                </div>
+                                <button class="btn btn-lg btn-danger">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </false>
+                <true>
+                    <check if="@ERROR.code">
                         <false>
                             <div class="card">
-                                <div class="card-header">Create Countdown</div>
+                                <div class="card-header"></div>
                                 <div class="card-body">
-                                    <form method="POST" action="/" enctype="multipart/form-data">
-                                        <repeat group="@RESPONSE.form.fields" key="@key" value="@value">
-                                            <check if="@value.type === 'button'">
-                                                <true>
-                                                    <button name="{{ @value.name }}" class="btn btn-primary mt-4">{{ @value.label }}</button>
-                                                </true>
-                                                <false>
-                                                    <check if="@value.type === 'textarea'">
-                                                        <true>
-                                                            <label for="{{ @value.name }}" class="mt-4">{{ @value.label }}</label>
-                                                            <textarea name="{{ @value.name }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.disabled ? 'disabled' : '' }} class="form-control"></textarea>
-                                                        </true>
-                                                        <false>
-                                                            <label for="{{ @value.name }}" class="mt-4">{{ @value.label }}</label>
-                                                            <input name="{{ @value.name }}" value="{{ @value.value }}" type="{{ @value.type }}" {{ @value.required ? 'required' : '' }} {{ @value.readonly ? 'readonly' : '' }} {{ @value.disabled ? 'disabled' : '' }} class="{{ @value.type !== 'file' ? 'form-control' : 'form-control-file' }}">
-                                                        </false>
-                                                    </check>
-                                                </false>
-                                            </check>
-                                        </repeat>
-                                    </form>
-                                </div>
-                            </div>
-                        </false>
-                        <true>
-                            <check if="@ERROR.code">
-                                <false>
-                                    <div class="card">
-                                        <div class="card-header"></div>
-                                        <div class="card-body">
-                                            <check if="file_exists('images/'.@PARAMS['id'].'.jpg')">
-                                                <true>
-                                                    <dic class="row">
-                                                        <div class="col-md-8">
-                                                            <h5 class="card-title">{{ @RESPONSE.data.title }}</h5>
-                                                            <p class="card-text">{{ @RESPONSE.data.description | raw }}</p>
-                                                            <check if="@RESPONSE.data.url">
-                                                                <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
-                                                            </check>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <img src="{{ 'images/'.@PARAMS['id'].'.jpg' }}" class="img-fluid">
-                                                        </div>
-                                                    </dic>
-                                                </true>
-                                                <false>
+                                    <check if="file_exists('images/'.@PARAMS['id'].'.jpg')">
+                                        <true>
+                                            <dic class="row">
+                                                <div class="col-md-8">
                                                     <h5 class="card-title">{{ @RESPONSE.data.title }}</h5>
                                                     <p class="card-text">{{ @RESPONSE.data.description | raw }}</p>
                                                     <check if="@RESPONSE.data.url">
                                                         <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
                                                     </check>
-                                                </false>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <img src="{{ 'images/'.@PARAMS['id'].'.jpg' }}" class="img-fluid">
+                                                </div>
+                                            </dic>
+                                        </true>
+                                        <false>
+                                            <h5 class="card-title">{{ @RESPONSE.data.title }}</h5>
+                                            <p class="card-text">{{ @RESPONSE.data.description | raw }}</p>
+                                            <check if="@RESPONSE.data.url">
+                                                <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
                                             </check>
-                                        </div>
-                                    </div>
-                                </false>
-                                <true>
-                                    <div class="card">
-                                        <div class="card-header">{{ @ERROR.code }}</div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ @DICT.notfoundtitle }}</h5>
-                                            <p class="card-text">{{ @DICT.notfoundtext }}</p>
-                                        </div>
-                                    </div>
-                                </true>
-                            </check>
+                                        </false>
+                                    </check>
+                                </div>
+                            </div>
+                        </false>
+                        <true>
+                            <div class="card">
+                                <div class="card-header">{{ @ERROR.code }}</div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ @DICT.notfoundtitle }}</h5>
+                                    <p class="card-text">{{ @DICT.notfoundtext }}</p>
+                                </div>
+                            </div>
                         </true>
                     </check>
-                </div>
-            </div>  
+                </true>
+            </check>
+
         </main> 
         <footer class="footer"> 
             <div class="container mt-5"> 
-                <p class="text-center"><a href="/">Create Countdown</a> | <a href="https://www.xsite.ch">XSite Web Development & Design</a></p>
+                <p class="text-center"><a href="/">{{ @DICT.createcountdown }}</a> | <a href="https://www.xsite.ch">{{ @DICT.meta.author }}</a></p>
             </div>
         </footer>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js" integrity="sha256-fTuUgtT7O2rqoImwjrhDgbXTKUwyxxujIMRIK7TbuNU=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.3/flatpickr.min.js" integrity="sha256-/irFIZmSo2CKXJ4rxHWfrI+yGJuI16Z005X/bENdpTY=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta3/js/bootstrap.min.js" integrity="sha512-mp3VeMpuFKbgxm/XMUU4QQUcJX4AZfV5esgX72JQr7H7zWusV6lLP1S78wZnX2z9dwvywil1VHkHZAqfGOW7Nw==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js" integrity="sha512-+ruHlyki4CepPr07VklkX/KM5NXdD16K1xVwSva5VqOVbsotyCQVKEwdQ1tAeo3UkHCXfSMtKU/mZpKjYqkxZA==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/l10n/{{ @LANGUAGE }}.min.js"></script>
         <check if="@PARAMS.id"> 
             <false>
                 <script type="text/javascript" src="js/home.js"></script>

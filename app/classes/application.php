@@ -1,68 +1,63 @@
 <?php
+declare(strict_types=1);
 namespace classes;
 /**
 *	base application class
 **/
-class application
+class application extends \Prefab
 {
     // instance of the f3-framework
     static protected $f3;
-
     // web class
     static protected $wb;
 
-    //! Instantiate class
+    /**
+     * constructor
+     */
     function __construct()
     {
         // store framework instance locally
         self::$f3 = \Base::instance();
-
         // store fwebclass instance
         self::$wb = \Web::instance();
     }
 
-    //! HTTP route pre-processor:
-    // - set / init very important variables
-    // - normalize uri through reroute to /language/page
-    // - normalize content of variables PARAMS.page and PARAMS.lang
-    // - set put parameter to PUT array
-    static function beforeroute($f3)
+    /**
+     * http route preprocessor
+     * @param \Base $f3_ fatfree framework instance
+     */
+    public static function beforeroute(\Base $f3_)
     {
         // set language to the one detected above
-        self::$f3->set('LANGUAGE', 'en');
-
+        $f3_->set('LANGUAGE', 'en');
         // set default response mime
-        self::$f3->set('RESPONSE.mime', 'text/html');
+        $f3_->set('RESPONSE.mime', 'text/html');
     }
 
     //! HTTP route post-processor
     // - output RESPONSE.data with content header RESPONSE.mime
     // - check for cli execution
     // - check for google recaptcha frontend request
-    static function afterroute()
+    public static function afterroute(\Base $f3_)
     {
         // set content type header
         header('Content-Type: '.strtolower(self::$f3->get('RESPONSE.mime')));
-
         // Render template depending on result mime type 
-        switch (strtolower(self::$f3->get('RESPONSE.mime'))) {
-
+        switch (strtolower($f3_->get('RESPONSE.mime'))) {
             // html output
             default:
             case 'text/html':
                 // output data
                 echo \Template::instance()->render('template.htm');
                 break;
-
             // json output
             case 'application/json':
                 // output the response data array as json, pretty print when in debug mode
-                echo json_encode(self::$f3->get('RESPONSE.data'), (self::$f3->get('DEBUG') ? JSON_PRETTY_PRINT : NULL));
+                echo json_encode($f3_->get('RESPONSE.data'), ($f3_->get('DEBUG') ? JSON_PRETTY_PRINT : 0));
                 break;
         }
-
         // reset flash messages
-        self::$f3->set('SESSION.message', array());
+        $f3_->set('SESSION.message', []);
     }
 
         /**
@@ -70,13 +65,12 @@ class application
      * @param \Base $f3_ instance of the f3 framework
      * @return bool for error handled, false for fallback to default error handler
      */
-    public function onerror(\Base $f3_)
+    public static function onerror(\Base $f3_)
     {
         // switch to default error handler, when it's a cli call or debugging is enabled
-        if ($f3_->get('DEBUG') >= 3) {
-
+        if ($f3_->get('DEBUG') > 0) {
             // return false, to fallback to default error handler
-            return (false);
+            return false;
         }
 
         // depending on the error code
@@ -85,44 +79,35 @@ class application
             // 403 - access denied
             // 404 - content not found
             // 405 - method not allowed
+            case 400:
+            case 401:
             case 403:
             case 404:
             case 405:
-
-                // push flash message
                 $f3_->push('SESSION.message', [
                     'type' => 'danger',
                     'text' => $f3_->get('ERROR.text'),
                 ]);
-
                 break;
-
             // 500 - internal server error
             case 500:
-
                 // if debug is enabled
                 if ($f3_->get('DEBUG')) {
-
-                    // push flash message
                     $f3_->push('SESSION.message', [
                         'type' => 'danger',
                         'text' => $f3_->get('ERROR.text'),					
                     ]);
-
                 // if debug is disabled
                 } else {
-
-                    // push flash message
                     $f3_->push('SESSION.message', [
                         'type' => 'danger',
                         'text' => 'Internal Server Error (500)',					
                     ]);
                 }
-
                 break;
         }
 
         // return true for error handled
-        return (true);
+        return true;
     }
 }
