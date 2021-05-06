@@ -1,7 +1,6 @@
 /tmp/cache
 /tmp/logs
 /tmp/*.php
-/uploads
+/uploads/*.json
 /vendor
-/public/images/c
-!*.gitkeep
+/public/images/c/*.jpg
