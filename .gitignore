@@ -4,4 +4,4 @@
 /uploads
 /vendor
 /public/images/c
-!*/.gitkeep
+!*.gitkeep
