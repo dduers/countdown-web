@@ -55,17 +55,14 @@ class countdown extends \DB\Jig\Mapper
         // upload files
         $_files = $this->_web->receive(function($file_, $formFieldName_)
         { 
-            $_ext = substr($file_['name'], strrpos($file_['name'], '.'));
-            if ($_ext !== '.jpg')
+            if ($file_['type'] !== 'image/jpeg')
                 return false; 
             return true;
         }, 
         $_overwrite, 
         function($slug_) use ($_id_countdown)
         {
-            // get extension of the file
-            $_ext = substr($slug_, strrpos($slug_, '.')); 
-            return $this->_f3->get('UPLOADS').'../public/images/c/'.$_id_countdown.$_ext; 
+            return $this->_f3->get('UPLOADS').'../public/images/c/'.$_id_countdown.'.jpg'; 
         }); 
 
         $_filename = array_keys($_files)[0];
@@ -77,18 +74,5 @@ class countdown extends \DB\Jig\Mapper
         }
 
         return $_id_countdown;
-    }
-
-    private function createCountdownId(): string
-    {
-        do {
-            $_result = $this->randomString();
-        } while (file_exists($this->_f3->get('UPLOADS').$this->_f3->get('PARAMS.id').'.json'));
-        return $_result;
-    }
-
-    private function randomString(): string
-    {
-        return bin2hex(random_bytes(16));
     }
 }
