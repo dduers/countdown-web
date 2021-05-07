@@ -43,42 +43,40 @@ class countdown extends \DB\Jig\Mapper
         $_data['date'] = $this->_f3->clean($_data['date']);
         $_data['goodbye'] = $this->_f3->clean($_data['goodbye']);
 
-        $_id_countdown = $this->createCountdownId();
-
         // write json file with data
         $this->copyfrom($_data);
         $this->insert();
 
+        $_id_countdown = $this->get('_id');
+
         // if a file was uploaded
-        if (file_exists($files_['picture']['tmp_name'])) {
-            $_overwrite = true;
+        $_overwrite = true;
 
-            // upload files
-            $_files = $this->_web->receive(function($file_, $formFieldName_)
-            { 
-                $_ext = substr($file_['name'], strrpos($file_['name'], '.'));
-                if ($_ext !== '.jpg')
-                    return false; 
-                return true;
-            }, 
-            $_overwrite, 
-            function($slug_) use ($_id_countdown)
-            {
-                // get extension of the file
-                $_ext = substr($slug_, strrpos($slug_, '.')); 
-                return $this->_f3->get('UPLOADS').'../public/images/c/'.$_id_countdown.$_ext; 
-            }); 
+        // upload files
+        $_files = $this->_web->receive(function($file_, $formFieldName_)
+        { 
+            $_ext = substr($file_['name'], strrpos($file_['name'], '.'));
+            if ($_ext !== '.jpg')
+                return false; 
+            return true;
+        }, 
+        $_overwrite, 
+        function($slug_) use ($_id_countdown)
+        {
+            // get extension of the file
+            $_ext = substr($slug_, strrpos($slug_, '.')); 
+            return $this->_f3->get('UPLOADS').'../public/images/c/'.$_id_countdown.$_ext; 
+        }); 
 
-            $_filename = array_keys($_files)[0];
-            if (file_exists($_filename)) {
-                $_image = new \Image($_filename);
-                // resize to width
-                $_image->resize(250);
-                $this->_f3->write($_filename, $_image->dump('jpeg', 100));
-            }
+        $_filename = array_keys($_files)[0];
+        if (file_exists($_filename)) {
+            $_image = new \Image($_filename);
+            // resize to width
+            $_image->resize(250);
+            $this->_f3->write($_filename, $_image->dump('jpeg', 100));
         }
 
-        return $this->get('_id');
+        return $_id_countdown;
     }
 
     private function createCountdownId(): string
