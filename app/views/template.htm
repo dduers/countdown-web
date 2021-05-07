@@ -10,8 +10,8 @@
             <meta name="twitter:card" content="summary"/>
             <meta property="og:title" content="{{ @RESPONSE.data.title }}"/>
             <meta property="og:description" content="{{ @RESPONSE.data.description }}"/>
-            <check if="file_exists('images/'.@PARAMS['id'].'.jpg')">
-                <meta property="og:image" content="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/images/{{ @PARAMS.id }}.jpg"/>
+            <check if="file_exists('images/c/'.@PARAMS['id'].'.jpg')">
+                <meta property="og:image" content="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/images/c/{{ @PARAMS.id }}.jpg"/>
             </check>
             <meta property="og:url" content="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/{{ @PARAMS.id }}"/>
             <meta property="og:type" content="article"/>
@@ -29,7 +29,6 @@
             <repeat group="@SESSION.message" key="@key" value="@value">
                 <div class="alert alert-{{ @value.type }}" role="alert">{{ @value.text }}</div>
             </repeat>
-
             <include if="{{ file_exists(@UI.'page/'.@PARAMS.page.'.htm') }}" href="{{ 'page/'.@PARAMS.page.'.htm' }}" />
         </main> 
         <footer class="footer"> 
@@ -40,13 +39,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta3/js/bootstrap.min.js" integrity="sha512-mp3VeMpuFKbgxm/XMUU4QQUcJX4AZfV5esgX72JQr7H7zWusV6lLP1S78wZnX2z9dwvywil1VHkHZAqfGOW7Nw==" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js" integrity="sha512-+ruHlyki4CepPr07VklkX/KM5NXdD16K1xVwSva5VqOVbsotyCQVKEwdQ1tAeo3UkHCXfSMtKU/mZpKjYqkxZA==" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/l10n/{{ @LANGUAGE }}.min.js"></script>
-        
-
+        <check if="@LANGUAGE !== 'en'">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/l10n/{{ @LANGUAGE }}.min.js"></script>
+        </check>
         <check if="file_exists('js/'.@PARAMS.page.'.js')">
             <script type="text/javascript" src="{{ 'js/'.@PARAMS.page.'.js' }}"></script>
         </check>
-    
         <script type="text/javascript" src="js/template.js"></script>
     </body>
 </html>

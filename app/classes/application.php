@@ -9,7 +9,9 @@ class application extends \Prefab
     // instance of the f3-framework
     static protected $f3;
     // web class
-    static protected $wb;
+    static protected $web;
+    // jig database
+    static protected $jig;
 
     /**
      * constructor
@@ -19,7 +21,9 @@ class application extends \Prefab
         // store framework instance locally
         self::$f3 = \Base::instance();
         // store fwebclass instance
-        self::$wb = \Web::instance();
+        self::$web = \Web::instance();
+        // jig database
+        self::$f3->set('DB', self::$jig = new \DB\Jig(self::$f3->get('jig.root'), \DB\Jig::FORMAT_JSON));
     }
 
     /**

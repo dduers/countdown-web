@@ -2,27 +2,31 @@
 declare(strict_types=1);
 namespace classes\model;
 
-class countdown
+class countdown extends \DB\Jig\Mapper
 {
     private $_f3;
     private $_web;
 
-    function __construct()
-    {
+    public function __construct() {
+
+        parent::__construct(\Base::instance()->get('DB'), 'countdown.json');
+
         $this->_f3 = \Base::instance();
         $this->_web = \Web::instance();
     }
 
     public function countdownExists(string $id_): bool
     {
-        return file_exists($this->_f3->get('UPLOADS').$this->_f3->get('PARAMS.id').'.json');
+        $this->load(['@_id = ?', $id_]);
+        return !$this->dry();
     }
 
     public function getCountdownDataAssoc(string $id_): array
     {
-        if (!$this->countdownExists($id_))
+        $this->load(['@_id = ?', $id_]);
+        if ($this->dry())
             return [];
-        return json_decode(file_get_contents($this->_f3->get('UPLOADS').$this->_f3->get('PARAMS.id').'.json'), true);
+        return $this->cast();
     }
 
     public function createCountdown(array $data_, array $files_): string
@@ -42,7 +46,8 @@ class countdown
         $_id_countdown = $this->createCountdownId();
 
         // write json file with data
-        $this->_f3->write($this->_f3->get('UPLOADS').$_id_countdown.'.json', json_encode($_data));
+        $this->copyfrom($_data);
+        $this->insert();
 
         // if a file was uploaded
         if (file_exists($files_['picture']['tmp_name'])) {
@@ -73,7 +78,7 @@ class countdown
             }
         }
 
-        return $_id_countdown;
+        return $this->get('_id');
     }
 
     private function createCountdownId(): string
