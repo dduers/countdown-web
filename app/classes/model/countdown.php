@@ -66,7 +66,7 @@ class countdown extends \DB\Jig\Mapper
         }); 
 
         $_filename = array_keys($_files)[0];
-        if (file_exists($_filename)) {
+        if ($_filename && file_exists($_filename)) {
             $_image = new \Image($_filename);
             // resize to width
             $_image->resize(250);
