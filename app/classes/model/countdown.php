@@ -9,18 +9,30 @@ class countdown extends \DB\Jig\Mapper
 
     public function __construct() {
 
+        // load database
         parent::__construct(\Base::instance()->get('DB'), 'countdown.json');
 
+        // fatfree class instances
         $this->_f3 = \Base::instance();
         $this->_web = \Web::instance();
     }
 
+    /**
+     * check if the countdown exists by id
+     * @param string $id_ id of the countdown
+     * @return bool true for exists, false for not exists
+     */
     public function countdownExists(string $id_): bool
     {
         $this->load(['@_id = ?', $id_]);
         return !$this->dry();
     }
 
+    /**
+     * get countdown data as assoc array by countdown id
+     * @param string $id_ id of the countdown
+     * @return array countdown data as assoc array
+     */
     public function getCountdownDataAssoc(string $id_): array
     {
         $this->load(['@_id = ?', $id_]);
@@ -29,9 +41,15 @@ class countdown extends \DB\Jig\Mapper
         return $this->cast();
     }
 
+    /**
+     * create a new countdown record
+     * @param array $data_ the user data
+     * @param array $files_ the picture files to upload
+     * @return string id of the new record
+     */
     public function createCountdown(array $data_, array $files_): string
     {
-        // filter data by keys
+        // only allow certain keys in user data
         $_data = array_filter($data_, function($value_, $key_) {
             return in_array($key_, ['title', 'date', 'description', 'url', 'goodbye']);
         }, ARRAY_FILTER_USE_BOTH);
@@ -43,23 +61,26 @@ class countdown extends \DB\Jig\Mapper
         $_data['date'] = $this->_f3->clean($_data['date']);
         $_data['goodbye'] = $this->_f3->clean($_data['goodbye']);
 
-        // write json file with data
+        // insert new record from user data
         $this->copyfrom($_data);
         $this->insert();
 
-        $_id_countdown = $this->get('_id');
+        // get countdown id 
+        $_id_countdown = (string)$this->get('_id');
 
-        // if a file was uploaded
+        // overwrite existing files
         $_overwrite = true;
 
-        // upload files
+        // upload picture files
         $_files = $this->_web->receive(function($file_, $formFieldName_)
         { 
             if ($file_['type'] !== 'image/jpeg')
                 return false; 
             return true;
         }, 
+        // overwrite existing files
         $_overwrite, 
+        // create path and filename for upload
         function($slug_) use ($_id_countdown)
         {
             return $this->_f3->get('UPLOADS').'../public/images/c/'.$_id_countdown.'.jpg'; 
@@ -73,6 +94,7 @@ class countdown extends \DB\Jig\Mapper
             $this->_f3->write($_filename, $_image->dump('jpeg', 100));
         }
 
+        // return the id of the new record
         return $_id_countdown;
     }
 }
