@@ -12,10 +12,12 @@
                         <textarea name="description" class="form-control" id="floatingDescription" placeholder="Description" required></textarea>
                         <label for="floatingDescription">Description</label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input name="url" type="url" class="form-control" id="floatingWebsite" placeholder="Website">
-                        <label for="floatingWebsite">Website</label>
-                    </div>
+                    <exclude>
+                        <div class="form-floating mb-3">
+                            <input name="url" type="url" class="form-control" id="floatingWebsite" placeholder="Website">
+                            <label for="floatingWebsite">Website</label>
+                        </div>
+                    </exclude>
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Picture</label>
                         <input name="picture" class="form-control" type="file" id="formFile">
@@ -45,9 +47,11 @@
                                     <div class="col-md-8">
                                         <h5 class="card-title">{{ @RESPONSE.data.title }}</h5>
                                         <p class="card-text">{{ @RESPONSE.data.description | raw }}</p>
-                                        <check if="@RESPONSE.data.url">
-                                            <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
-                                        </check>
+                                        <exclude>
+                                            <check if="@RESPONSE.data.url">
+                                                <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
+                                            </check>
+                                        </exclude>
                                     </div>
                                     <div class="col-md-4">
                                         <img src="{{ 'images/c/'.@PARAMS['id'].'.jpg' }}" class="img-fluid">
@@ -57,9 +61,11 @@
                             <false>
                                 <h5 class="card-title">{{ @RESPONSE.data.title }}</h5>
                                 <p class="card-text">{{ @RESPONSE.data.description | raw }}</p>
-                                <check if="@RESPONSE.data.url">
-                                    <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
-                                </check>
+                                <exclude>
+                                    <check if="@RESPONSE.data.url">
+                                        <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
+                                    </check>
+                                </exclude>
                             </false>
                         </check>
                     </div>
