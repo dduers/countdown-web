@@ -86,7 +86,7 @@ class countdown extends \DB\Jig\Mapper
             return $this->_f3->get('UPLOADS').'../public/images/c/'.$_id_countdown.'.jpg'; 
         }); 
 
-        $_filename = array_keys($_files)[0];
+        $_filename = (array_keys($_files)[0] ?? '');
         if ($_filename && file_exists($_filename)) {
             $_image = new \Image($_filename);
             // resize to width
