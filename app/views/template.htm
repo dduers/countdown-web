@@ -1,50 +1,54 @@
 <!DOCTYPE html>
 <html lang="{{ @LANGUAGE }}">
-    <head>
-        <meta charset="{{ @ENCODING }}" />
-        <meta name="description" content="{{ @DICT.meta.description }}">
-        <meta name="author" content="{{ @DICT.meta.author }}">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <check if="@PARAMS.id && !@ERROR.code">
-            <meta name="twitter:card" content="summary"/>
-            <meta property="og:title" content="{{ @RESPONSE.data.title }}"/>
-            <meta property="og:description" content="{{ @RESPONSE.data.description }}"/>
-            <check if="file_exists('images/c/'.@PARAMS['id'].'.jpg')">
-                <meta property="og:image" content="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/images/c/{{ @PARAMS.id }}.jpg"/>
-            </check>
-            <meta property="og:url" content="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/{{ @PARAMS.id }}"/>
-            <meta property="og:type" content="article"/>
+
+<head>
+    <meta charset="{{ @ENCODING }}" />
+    <meta name="description" content="{{ @DICT.meta.description }}">
+    <meta name="author" content="{{ @DICT.meta.author }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <check if="(@PARAMS.id ?? 0) && !(@ERROR.code ?? 0)">
+        <meta name="twitter:card" content="summary" />
+        <meta property="og:title" content="{{ @RESPONSE.data.title }}" />
+        <meta property="og:description" content="{{ @RESPONSE.data.description }}" />
+        <check if="file_exists('images/c/'.@PARAMS['id'].'.jpg')">
+            <meta property="og:image" content="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/images/c/{{ @PARAMS.id }}.jpg" />
         </check>
-        <title>{{ @DICT.meta.title }}</title>
-        <base href="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/" />
-        <link rel="icon" href="images/favicon.ico">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta3/css/bootstrap.min.css" integrity="sha512-N415hCJJdJx+1UBfULt+i+ihvOn42V/kOjOpp1UTh4CZ70Hx5bDlKryWaqEKfY/8EYOu/C2MuyaluJryK1Lb5Q==" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.css" integrity="sha512-OtwMKauYE8gmoXusoKzA/wzQoh7WThXJcJVkA29fHP58hBF7osfY0WLCIZbwkeL9OgRCxtAfy17Pn3mndQ4PZQ==" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/themes/airbnb.min.css" integrity="sha512-s0ZrPrgzmwoIlxJR7XKxtUbqRm103b8HS0wOnWnJSsKO1prue4aGp1XJRGl9OADSKygpFcCQ/xlieqQ773/aAw==" crossorigin="anonymous" />
-        <link rel="stylesheet" type="text/css" href="css/template.css" />
-    </head>
-    <body id="{{ @PARAMS.page }}">
-         <main role="main" class="container mt-5">
-            <repeat group="@SESSION.message" key="@key" value="@value">
-                <div class="alert alert-{{ @value.type }}" role="alert">{{ @value.text }}</div>
-            </repeat>
-            <include if="{{ file_exists(@UI.'page/'.@PARAMS.page.'.htm') }}" href="{{ 'page/'.@PARAMS.page.'.htm' }}" />
-        </main> 
-        <footer class="footer"> 
-            <div class="container mt-5"> 
-                <p class="text-center"><a href="/c">{{ @DICT.createcountdown }}</a> | <a href="https://www.xsite.ch">{{ @DICT.meta.author }}</a></p>
-            </div>
-        </footer>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta3/js/bootstrap.min.js" integrity="sha512-mp3VeMpuFKbgxm/XMUU4QQUcJX4AZfV5esgX72JQr7H7zWusV6lLP1S78wZnX2z9dwvywil1VHkHZAqfGOW7Nw==" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js" integrity="sha512-+ruHlyki4CepPr07VklkX/KM5NXdD16K1xVwSva5VqOVbsotyCQVKEwdQ1tAeo3UkHCXfSMtKU/mZpKjYqkxZA==" crossorigin="anonymous"></script>
-        <check if="@LANGUAGE !== 'en'">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/l10n/{{ @LANGUAGE }}.min.js"></script>
-        </check>
-        <check if="file_exists('js/'.@PARAMS.page.'.js')">
-            <script type="text/javascript" src="{{ 'js/'.@PARAMS.page.'.js' }}"></script>
-        </check>
-        <script type="text/javascript" src="js/template.js"></script>
-    </body>
+        <meta property="og:url" content="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/{{ @PARAMS.id }}" />
+        <meta property="og:type" content="article" />
+    </check>
+    <title>{{ @DICT.meta.title }}</title>
+    <base href="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/" />
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta3/css/bootstrap.min.css" integrity="sha512-N415hCJJdJx+1UBfULt+i+ihvOn42V/kOjOpp1UTh4CZ70Hx5bDlKryWaqEKfY/8EYOu/C2MuyaluJryK1Lb5Q==" crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.css" integrity="sha512-OtwMKauYE8gmoXusoKzA/wzQoh7WThXJcJVkA29fHP58hBF7osfY0WLCIZbwkeL9OgRCxtAfy17Pn3mndQ4PZQ==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/themes/airbnb.min.css" integrity="sha512-s0ZrPrgzmwoIlxJR7XKxtUbqRm103b8HS0wOnWnJSsKO1prue4aGp1XJRGl9OADSKygpFcCQ/xlieqQ773/aAw==" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="css/template.css" />
+</head>
+
+<body id="{{ @PARAMS.page }}">
+    <main role="main" class="container mt-5">
+        <repeat group="@SESSION.message" key="@key" value="@value">
+            <div class="alert alert-{{ @value.type }}" role="alert">{{ @value.text }}</div>
+        </repeat>
+        <include if="{{ file_exists(@UI.'page/'.@PARAMS.page.'.htm') }}" href="{{ 'page/'.@PARAMS.page.'.htm' }}" />
+    </main>
+    <footer class="footer">
+        <div class="container mt-5">
+            <p class="text-center"><a href="/c">{{ @DICT.createcountdown }}</a> | <a href="https://www.xsite.ch">{{ @DICT.meta.author }}</a></p>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta3/js/bootstrap.min.js" integrity="sha512-mp3VeMpuFKbgxm/XMUU4QQUcJX4AZfV5esgX72JQr7H7zWusV6lLP1S78wZnX2z9dwvywil1VHkHZAqfGOW7Nw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js" integrity="sha512-+ruHlyki4CepPr07VklkX/KM5NXdD16K1xVwSva5VqOVbsotyCQVKEwdQ1tAeo3UkHCXfSMtKU/mZpKjYqkxZA==" crossorigin="anonymous"></script>
+    <check if="@LANGUAGE !== 'en'">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/l10n/{{ @LANGUAGE }}.min.js"></script>
+    </check>
+    <check if="file_exists('js/'.@PARAMS.page.'.js')">
+        <script type="text/javascript" src="{{ 'js/'.@PARAMS.page.'.js' }}"></script>
+    </check>
+    <script type="text/javascript" src="js/template.js"></script>
+</body>
+
 </html>

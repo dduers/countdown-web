@@ -1,7 +1,9 @@
-<check if="@PARAMS.id">
+<check if="@PARAMS.id ?? 0">
     <false>
         <div class="card">
-            <div class="card-header"><h2>{{ @DICT.createcountdown }}</h2></div>
+            <div class="card-header">
+                <h2>{{ @DICT.createcountdown }}</h2>
+            </div>
             <div class="card-body">
                 <form method="POST" action="" enctype="multipart/form-data">
                     <div class="form-floating mb-3">
@@ -36,7 +38,7 @@
         </div>
     </false>
     <true>
-        <check if="@ERROR.code">
+        <check if="@ERROR.code ?? 0">
             <false>
                 <div class="card">
                     <div class="card-header"></div>
