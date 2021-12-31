@@ -6,14 +6,13 @@
     "type": "project",
     "keywords": ["countdown", "web-project", "php"],
     "require": {
-        "php": "^7.4",
+        "php": ">=7.4",
         "bcosca/fatfree-core": "^3.7"
     },
-    "authors": [
-        {
-            "name": "Daniel Dürsteler",
-            "email": "daniel.duersteler@gmail.com",
-            "role": "Developer"
-        }
-    ]
+    "authors": [{
+        "name": "Daniel Dürsteler",
+        "email": "daniel.duersteler@gmail.com",
+        "role": "Developer",
+        "homepage": "https://www.xsite.ch"
+    }]
 }
