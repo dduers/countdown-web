@@ -55,11 +55,11 @@ class countdown extends \DB\Jig\Mapper
         }, ARRAY_FILTER_USE_BOTH);
 
         // avoid xss attacks by normalizing and cleaning user input
-        $_data['title'] = $this->_f3->clean($_data['title']);
-        $_data['description'] = nl2br($this->_f3->clean($_data['description']));
-        $_data['url'] = $this->_f3->clean($_data['url']);
-        $_data['date'] = $this->_f3->clean($_data['date']);
-        $_data['goodbye'] = $this->_f3->clean($_data['goodbye']);
+        $_data['title'] = $this->_f3->clean($_data['title'] ?? '');
+        $_data['description'] = nl2br($this->_f3->clean($_data['description'] ?? ''));
+        $_data['url'] = $this->_f3->clean($_data['url'] ?? '');
+        $_data['date'] = $this->_f3->clean($_data['date'] ?? '');
+        $_data['goodbye'] = $this->_f3->clean($_data['goodbye'] ?? '');
 
         // insert new record from user data
         $this->copyfrom($_data);
