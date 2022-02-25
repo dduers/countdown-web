@@ -29,7 +29,7 @@
 
 <body id="{{ @PARAMS.page }}">
     <main role="main" class="container mt-5">
-        <repeat group="@SESSION.message" key="@key" value="@value">
+        <repeat group="@SESSION.message ?? []" key="@key" value="@value">
             <div class="alert alert-{{ @value.type }}" role="alert">{{ @value.text }}</div>
         </repeat>
         <include if="{{ file_exists(@UI.'page/'.@PARAMS.page.'.htm') }}" href="{{ 'page/'.@PARAMS.page.'.htm' }}" />
