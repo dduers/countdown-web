@@ -78,7 +78,10 @@ final class countdown extends Mapper
      */
     public function deleteRecordImage(string $id_): bool
     {
-        return unlink($this->_f3->get('UPLOADS') . '../public/images/c/' . $id_ . '.jpg');
+        $_filename = $this->_f3->get('UPLOADS') . '../public/images/c/' . $id_ . '.jpg';
+        if (file_exists($_filename))
+            return unlink($_filename);
+        return false;
     }
 
     /**
