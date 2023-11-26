@@ -1,20 +1,27 @@
 <?php
+
 declare(strict_types=1);
+
 namespace classes\model;
 
-class countdown extends \DB\Jig\Mapper
+use Base;
+use Web;
+use DB\Jig\Mapper;
+
+class countdown extends Mapper
 {
     private $_f3;
     private $_web;
 
-    public function __construct() {
-
-        // load database
-        parent::__construct(\Base::instance()->get('DB'), 'countdown.json');
+    public function __construct()
+    {
 
         // fatfree class instances
-        $this->_f3 = \Base::instance();
-        $this->_web = \Web::instance();
+        $this->_f3 = Base::instance();
+        $this->_web = Web::instance();
+
+        // load database
+        parent::__construct($this->_f3->get('DB'), 'countdown.json');
     }
 
     /**
@@ -50,7 +57,7 @@ class countdown extends \DB\Jig\Mapper
     public function createCountdown(array $data_, array $files_): string
     {
         // only allow certain keys in user data
-        $_data = array_filter($data_, function($value_, $key_) {
+        $_data = array_filter($data_, function ($value_, $key_) {
             return in_array($key_, ['title', 'date', 'description', 'url', 'goodbye']);
         }, ARRAY_FILTER_USE_BOTH);
 
@@ -72,19 +79,19 @@ class countdown extends \DB\Jig\Mapper
         $_overwrite = true;
 
         // upload picture files
-        $_files = $this->_web->receive(function($file_, $formFieldName_)
-        { 
-            if ($file_['type'] !== 'image/jpeg')
-                return false; 
-            return true;
-        }, 
-        // overwrite existing files
-        $_overwrite, 
-        // create path and filename for upload
-        function($slug_) use ($_id_countdown)
-        {
-            return $this->_f3->get('UPLOADS').'../public/images/c/'.$_id_countdown.'.jpg'; 
-        }); 
+        $_files = $this->_web->receive(
+            function ($file_, $formFieldName_) {
+                if ($file_['type'] !== 'image/jpeg')
+                    return false;
+                return true;
+            },
+            // overwrite existing files
+            $_overwrite,
+            // create path and filename for upload
+            function ($slug_) use ($_id_countdown) {
+                return $this->_f3->get('UPLOADS') . '../public/images/c/' . $_id_countdown . '.jpg';
+            }
+        );
 
         $_filename = (array_keys($_files)[0] ?? '');
         if ($_filename && file_exists($_filename)) {

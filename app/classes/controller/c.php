@@ -1,8 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 namespace classes\controller;
 
-class c extends \classes\application 
+use classes\application;
+use classes\model\countdown;
+
+class c extends application
 {
     private $_model_countdown;
 
@@ -11,7 +16,7 @@ class c extends \classes\application
      */
     function commonTasks()
     {
-        $this->_model_countdown = new \classes\model\countdown();
+        $this->_model_countdown = new countdown();
     }
 
     /**
@@ -37,12 +42,12 @@ class c extends \classes\application
     /**
      * POST requests
      */
-    function post() 
+    function post()
     {
         $this->commonTasks();
 
         // create countdown, reroute to the countdown
-        self::$f3->reroute('/'.self::$f3->get('PARAMS.page').'/'.$this->_model_countdown->createCountdown(self::$f3->get('POST'), self::$f3->get('FILES')));
+        self::$f3->reroute('/' . self::$f3->get('PARAMS.page') . '/' . $this->_model_countdown->createCountdown(self::$f3->get('POST'), self::$f3->get('FILES')));
         return;
     }
 }
