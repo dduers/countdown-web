@@ -7,9 +7,9 @@ namespace classes\controller;
 use classes\application;
 use classes\model\countdown;
 
-class c extends application
+final class c extends application
 {
-    private $_model_countdown;
+    private countdown $_model_countdown;
 
     /**
      * common for all methods
@@ -27,16 +27,16 @@ class c extends application
         $this->commonTasks();
 
         // if the data file not exists
-        if (self::$f3->get('PARAMS.id') && !$this->_model_countdown->countdownExists(self::$f3->get('PARAMS.id'))) {
-            self::$f3->error(404);
+        if (self::$_f3->get('PARAMS.id') && !$this->_model_countdown->countdownExists(self::$_f3->get('PARAMS.id'))) {
+            self::$_f3->error(404);
             return;
         }
 
-        if (self::$f3->get('AJAX'))
-            self::$f3->set('RESPONSE.mime', 'application/json');
+        if (self::$_f3->get('AJAX'))
+            self::$_f3->set('RESPONSE.mime', 'application/json');
 
-        if (self::$f3->get('PARAMS.id'))
-            self::$f3->set('RESPONSE.data', $this->_model_countdown->getCountdownDataAssoc(self::$f3->get('PARAMS.id')));
+        if (self::$_f3->get('PARAMS.id'))
+            self::$_f3->set('RESPONSE.data', $this->_model_countdown->getCountdownDataAssoc(self::$_f3->get('PARAMS.id')));
     }
 
     /**
@@ -47,7 +47,7 @@ class c extends application
         $this->commonTasks();
 
         // create countdown, reroute to the countdown
-        self::$f3->reroute('/' . self::$f3->get('PARAMS.page') . '/' . $this->_model_countdown->createCountdown(self::$f3->get('POST'), self::$f3->get('FILES')));
+        self::$_f3->reroute('/' . self::$_f3->get('PARAMS.page') . '/' . $this->_model_countdown->createCountdown(self::$_f3->get('POST'), self::$_f3->get('FILES')));
         return;
     }
 }

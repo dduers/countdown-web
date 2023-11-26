@@ -1,0 +1,83 @@
+<check if="@SESSION.username ?? null">
+    <true>
+        <div class="card">
+            <div class="card-header">
+                <h2>{{ @DICT.records }}</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <td>ID</td>
+                        <td>{{ @DICT.record.title }}</td>
+                        <td>{{ @DICT.record.description }}</td>
+                        <td>{{ @DICT.record.url }}</td>
+                        <td>{{ @DICT.record.date }}</td>
+                        <td>{{ @DICT.record.goodbye }}</td>
+                        <td>{{ @DICT.options }}</td>
+                    </thead>
+                    <tbody>
+                        <repeat group="{{ @RESPONSE.records }}" value="{{ @record }}" key="{{ @key }}">
+                            <tr>
+                                <td>{{ @record._id }}</td>
+                                <td>{{ @record.title }}</td>
+                                <td>{{ @record.description }}</td>
+                                <td>{{ @record.url }}</td>
+                                <td>{{ @record.date }}</td>
+                                <td>{{ @record.goodbye }}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-primary" href="/c/{{ @record._id }}">{{ @DICT.show }}</a>
+                                    <a class="btn btn-sm btn-danger action-edit" href="/c/{{ @record._id }}">{{
+                                        @DICT.delete }}</button>
+                                    <button class="btn btn-sm btn-danger action-delete" value="{{ @record._id }}">{{
+                                        @DICT.delete }}</button>
+                                </td>
+                            </tr>
+                        </repeat>
+                    </tbody>
+                </table>
+                <check if="!count(@RESPONSE.records)">
+                    <div class="alert alert-warning">{{ @DICT.norecords }}</div>
+                </check>
+                <a class="btn btn-lg btn-danger mt-3" href="/c">{{ @DICT.create }}</a>
+                <!--
+                <form method="POST" action="">
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="username" id="username" type="text"
+                            placeholder="{{ @DICT.username }}" required>
+                        <label class="form-label" for="password">{{ @DICT.username }}</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="password" id="password" type="password"
+                            placeholder="{{ @DICT.password }}" required>
+                        <label class="form-label" for="password">{{ @DICT.password }}</label>
+                    </div>
+                    <button class="btn btn-lg btn-danger mt-3">{{ @DICT.login }}</button>
+                </form>
+                -->
+
+            </div>
+        </div>
+    </true>
+    <false>
+        <div class="card">
+            <div class="card-header">
+                <h2>{{ @DICT.login }}</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="">
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="username" id="username" type="text"
+                            placeholder="{{ @DICT.username }}" required>
+                        <label class="form-label" for="password">{{ @DICT.username }}</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="password" id="password" type="password"
+                            placeholder="{{ @DICT.password }}" required>
+                        <label class="form-label" for="password">{{ @DICT.password }}</label>
+                    </div>
+                    <button class="btn btn-lg btn-danger mt-3">{{ @DICT.login }}</button>
+                </form>
+            </div>
+        </div>
+    </false>
+</check>

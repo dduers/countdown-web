@@ -7,15 +7,15 @@ namespace classes\model;
 use Base;
 use Web;
 use DB\Jig\Mapper;
+use Image;
 
-class countdown extends Mapper
+final class countdown extends Mapper
 {
-    private $_f3;
-    private $_web;
+    private Base $_f3;
+    private Web $_web;
 
     public function __construct()
     {
-
         // fatfree class instances
         $this->_f3 = Base::instance();
         $this->_web = Web::instance();
@@ -46,6 +46,39 @@ class countdown extends Mapper
         if ($this->dry())
             return [];
         return $this->cast();
+    }
+
+    /**
+     * get all records as assoc array
+     * @return array
+     */
+    public function getAllRecords(): array
+    {
+        $_result = [];
+        foreach ($this->find() as $_r)
+            $_result[] = $_r->cast();
+        return $_result;
+    }
+
+    /**
+     * delete record
+     * @param $id_ 
+     * @return bool
+     */
+    public function deleteRecord(string $id_): bool
+    {
+        $this->deleteRecordImage($id_);
+        return $this->erase(['@_id = ?', $id_]);
+    }
+
+    /**
+     * delete a countdown's image file
+     * @param $id_ 
+     * @return bool
+     */
+    public function deleteRecordImage(string $id_): bool
+    {
+        return $this->_f3->delete($this->_f3->get($this->_f3->get('UPLOADS') . '../public/images/c/' . $id_ . '.jpg'));
     }
 
     /**
@@ -95,7 +128,7 @@ class countdown extends Mapper
 
         $_filename = (array_keys($_files)[0] ?? '');
         if ($_filename && file_exists($_filename)) {
-            $_image = new \Image($_filename);
+            $_image = new Image($_filename);
             // resize to width
             $_image->resize(250);
             $this->_f3->write($_filename, $_image->dump('jpeg', 100));

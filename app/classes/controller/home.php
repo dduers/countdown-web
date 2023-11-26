@@ -6,7 +6,7 @@ namespace classes\controller;
 
 use classes\application;
 
-class home extends application
+final class home extends application
 {
     /**
      * GET requests

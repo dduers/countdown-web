@@ -2,7 +2,7 @@ FROM php:8.2.3-apache
 
 # install libs and php mods
 RUN apt-get update && apt-get install -y
-RUN apt-get install -y libmariadb-dev libpng-dev libzip-dev
+RUN apt-get install -y libmariadb-dev libpng-dev libjpeg-dev libzip-dev libgd-dev
 RUN docker-php-ext-install mysqli pdo_mysql gd zip
 
 # timezone setting
