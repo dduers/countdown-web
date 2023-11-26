@@ -75,10 +75,11 @@
             </false>
             <true>
                 <div class="card">
-                    <div class="card-header">{{ @ERROR.code }}</div>
+                    <div class="card-header"><h2>{{ @DICT.notfound }} - {{ @ERROR.code }}</h2></div>
                     <div class="card-body">
                         <h5 class="card-title">{{ @DICT.notfoundtitle }}</h5>
                         <p class="card-text">{{ @DICT.notfoundtext }}</p>
+                        <a class="btn btn-lg btn-danger mt-3" href="/c">{{ @DICT.create }}</a>
                     </div>
                 </div>
             </true>
