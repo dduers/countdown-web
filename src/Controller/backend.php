@@ -72,6 +72,6 @@ final class backend extends Application
         self::$_f3->set('RESPONSE.data', [
             'result' => self::$_model_countdown->deleteRecord($_id_record),
         ]);
-        return;
+        return; 
     }
 }
