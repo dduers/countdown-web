@@ -40,12 +40,7 @@
         </repeat>
         <include if="{{ file_exists(@UI.'page/'.@PARAMS.page.'.htm') }}" href="{{ 'page/'.@PARAMS.page.'.htm' }}" />
     </main>
-    <footer class="footer">
-        <div class="container mt-5">
-            <p class="text-center"><a href="/">{{ @DICT.home }}</a> | <a href="https://www.xsite.ch">{{
-                    @DICT.meta.author }}</a></p>
-        </div>
-    </footer>
+    <include if="{{ file_exists(@UI.'partials/footer.htm') }}" href="{{ 'partials/footer.htm' }}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta3/js/bootstrap.min.js"

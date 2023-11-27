@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace classes\model;
+namespace Dduers\CountdownWeb\Entity;
 
 use Base;
 use Web;
 use DB\Jig\Mapper;
 use Image;
 
-final class countdown extends Mapper
+final class CountdownEntity extends Mapper
 {
     private Base $_f3;
     private Web $_web;
@@ -25,22 +25,22 @@ final class countdown extends Mapper
     }
 
     /**
-     * check if the countdown exists by id
-     * @param string $id_ id of the countdown
+     * check if the record exists by id
+     * @param string $id_ id of the record
      * @return bool true for exists, false for not exists
      */
-    public function countdownExists(string $id_): bool
+    public function recordExists(string $id_): bool
     {
         $this->load(['@_id = ?', $id_]);
         return !$this->dry();
     }
 
     /**
-     * get countdown data as assoc array by countdown id
-     * @param string $id_ id of the countdown
-     * @return array countdown data as assoc array
+     * get record data as assoc array by record id
+     * @param string $id_ id of the record
+     * @return array record data as assoc array
      */
-    public function getCountdownDataAssoc(string $id_): array
+    public function getRecordById(string $id_): array
     {
         $this->load(['@_id = ?', $id_]);
         if ($this->dry())
@@ -72,25 +72,25 @@ final class countdown extends Mapper
     }
 
     /**
-     * delete a countdown's image file
+     * delete a records's image file
      * @param $id_ 
      * @return bool
      */
     public function deleteRecordImage(string $id_): bool
     {
-        $_filename = $this->_f3->get('UPLOADS') . '../public/images/c/' . $id_ . '.jpg';
+        $_filename = 'public/images/c/' . $id_ . '.jpg';
         if (file_exists($_filename))
             return unlink($_filename);
         return false;
     }
 
     /**
-     * create a new countdown record
+     * create a new record
      * @param array $data_ the user data
      * @param array $files_ the picture files to upload
      * @return string id of the new record
      */
-    public function createCountdown(array $data_, array $files_): string
+    public function createRecord(array $data_, array $files_): string
     {
         // only allow certain keys in user data
         $_data = array_filter($data_, function ($value_, $key_) {
@@ -108,8 +108,8 @@ final class countdown extends Mapper
         $this->copyfrom($_data);
         $this->insert();
 
-        // get countdown id 
-        $_id_countdown = (string)$this->get('_id');
+        // get record id 
+        $_id_record = (string)$this->get('_id');
 
         // overwrite existing files
         $_overwrite = true;
@@ -124,8 +124,8 @@ final class countdown extends Mapper
             // overwrite existing files
             $_overwrite,
             // create path and filename for upload
-            function ($slug_) use ($_id_countdown) {
-                return $this->_f3->get('UPLOADS') . '../public/images/c/' . $_id_countdown . '.jpg';
+            function ($slug_) use ($_id_record) {
+                return '../../public/images/c/' . $_id_record . '.jpg';
             }
         );
 
@@ -138,6 +138,6 @@ final class countdown extends Mapper
         }
 
         // return the id of the new record
-        return $_id_countdown;
+        return $_id_record;
     }
 }

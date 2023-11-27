@@ -6,13 +6,21 @@
     "type": "project",
     "keywords": ["countdown", "web-project", "php"],
     "require": {
-        "php": ">=7.4",
-        "bcosca/fatfree-core": "^3.7"
+        "php": ">=8.2",
+        "bcosca/fatfree-core": "^3.7",
+        "ikkez/f3-schema-builder": "^2.2",
+        "html2text/html2text": "^4.3",
+        "dduers/f3-app": "@dev"
     },
     "authors": [{
         "name": "Daniel Dürsteler",
         "email": "daniel.duersteler@gmail.com",
         "role": "Developer",
         "homepage": "https://www.xsite.ch"
-    }]
+    }],
+    "autoload": {
+        "psr-4": {
+            "Dduers\\CountdownWeb\\": "src/"
+        }
+    }
 }

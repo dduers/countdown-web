@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace classes\controller;
+namespace Dduers\CountdownWeb\Controller;
 
-use classes\application;
-use classes\model\countdown;
+use Dduers\CountdownWeb\Application;
+use Dduers\CountdownWeb\Entity\CountdownEntity;
 
-final class backend extends application
+final class backend extends Application
 {
     private const USERNAME = 'admin';
     private const PASSWORD = 'CyberStorm12-';
 
-    private static countdown $_model_countdown;
+    private static CountdownEntity $_model_countdown;
 
     private static function commonTasks(): void
     {
-        self::$_model_countdown = new countdown();
+        self::$_model_countdown = new CountdownEntity();
     }
 
     /**
@@ -56,7 +56,7 @@ final class backend extends application
     {
         self::commonTasks();
         self::$_f3->set('RESPONSE.mime', 'application/json');
-        $_id_record = (string)self::$_f3->get('PARAMS.id');
+        $_id_record = (string)self::$_f3->get('DELETE.id');
         if ($_id_record === '') {
             self::$_f3->error(400);
             return;
@@ -65,7 +65,7 @@ final class backend extends application
             self::$_f3->error(403);
             return;
         }
-        if (!self::$_model_countdown->countdownExists($_id_record)) {
+        if (!self::$_model_countdown->recordExists($_id_record)) {
             self::$_f3->error(404);
             return;
         }

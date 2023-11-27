@@ -11,9 +11,14 @@
             // delete button
             $('.action-delete').click(function (event) {
                 event.preventDefault();
+                //console.log($(this).val());
                 $.ajax({
-                    url: window.location.href + '/' + $(this).val(),
+                    url: window.location.href,
                     type: 'DELETE',
+                    contentType: 'application/json',
+                    data: {
+                        id: $(this).val(),
+                    },
                     success: function (data) {
                         window.location = window.location.href;
                     }

@@ -2,17 +2,19 @@
 
 declare(strict_types=1);
 
-namespace classes;
+namespace Dduers\CountdownWeb;
 
 use Base;
 use DB\jig;
+use Log;
+use Prefab;
 use Template;
 use Web;
 
 /**
- *	base application class
+ * 
  **/
-class application extends \Prefab
+class Application extends Prefab
 {
     // instance of the $_f3-framework
     static protected Base $_f3;
@@ -48,8 +50,15 @@ class application extends \Prefab
         if (!$f3_->get('PARAMS.page'))
             $f3_->set('PARAMS.page', 'home');
         // store data from put and delete requests
-        if ($f3_->get('VERB') === 'PUT' || $f3_->get('VERB') === 'DELETE')
-            $f3_->set($f3_->get('VERB'), json_decode(file_get_contents('php://input'), true));
+        if ($f3_->get('VERB') === 'PUT' || $f3_->get('VERB') === 'DELETE') {
+            parse_str(file_get_contents("php://input"), $_vars);
+            self::$_f3->set($f3_->get('VERB'), $_vars);
+            //$f3_->set($f3_->get('VERB'), json_decode(file_get_contents('php://input'), true));
+        }
+
+
+        //$_log = new Log('temp.txt');
+        //$_log->write(json_encode(json_decode(file_get_contents('php://input'), true)));
     }
 
     //! HTTP route post-processor
@@ -86,7 +95,7 @@ class application extends \Prefab
     public static function onerror(Base $f3_)
     {
         // switch to default error handler, when it's a cli call or debugging is enabled
-        if ($f3_->get('DEBUG') > 0) {
+        if ($f3_->get('DEBUG') > 1) {
             // return false, to fallback to default error handler
             return false;
         }
@@ -127,5 +136,25 @@ class application extends \Prefab
 
         // return true for error handled
         return true;
+    }
+
+    /**
+     * run the application
+     * @return void
+     */
+    public static function run(): void
+    {
+        self::$_f3->run();
+    }
+
+    /**
+     * load configuration files
+     * @return void
+     */
+    public static function config(): void
+    {
+        // load configuration files
+        foreach (glob('../config/*.ini') as $_inifile)
+            self::$_f3->config($_inifile, false);
     }
 }

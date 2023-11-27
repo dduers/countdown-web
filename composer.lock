@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "804419584f9c09da4b99b69f70c4cb03",
+    "content-hash": "e7001a8695a83a8807c1b76299004ee2",
     "packages": [
         {
             "name": "bcosca/fatfree-core",
@@ -40,16 +40,143 @@
                 "source": "https://github.com/f3-factory/fatfree-core/tree/3.8.2"
             },
             "time": "2023-07-23T22:11:30+00:00"
+        },
+        {
+            "name": "dduers/f3-app",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dduers/f3-app.git",
+                "reference": "1c3ef0cc320b9fd37341e83915eca822a1218fd0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dduers/f3-app/zipball/1c3ef0cc320b9fd37341e83915eca822a1218fd0",
+                "reference": "1c3ef0cc320b9fd37341e83915eca822a1218fd0",
+                "shasum": ""
+            },
+            "require": {
+                "bcosca/fatfree-core": "^3.8",
+                "php": ">=8.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dduers\\F3App\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Duersteler",
+                    "email": "daniel.duersteler@xsite.ch",
+                    "homepage": "https://www.xsite.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Secure boilerplate for a fat-free framework (f3) web app",
+            "support": {
+                "issues": "https://github.com/dduers/f3-app/issues",
+                "source": "https://github.com/dduers/f3-app/tree/main"
+            },
+            "time": "2023-11-27T13:47:41+00:00"
+        },
+        {
+            "name": "html2text/html2text",
+            "version": "4.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mtibben/html2text.git",
+                "reference": "61ad68e934066a6f8df29a3d23a6460536d0855c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mtibben/html2text/zipball/61ad68e934066a6f8df29a3d23a6460536d0855c",
+                "reference": "61ad68e934066a6f8df29a3d23a6460536d0855c",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance",
+                "symfony/polyfill-mbstring": "If you can't install ext-mbstring"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Html2Text\\": [
+                        "src/",
+                        "test/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Converts HTML to formatted plain text",
+            "support": {
+                "issues": "https://github.com/mtibben/html2text/issues",
+                "source": "https://github.com/mtibben/html2text/tree/4.3.1"
+            },
+            "time": "2020-04-16T23:44:31+00:00"
+        },
+        {
+            "name": "ikkez/f3-schema-builder",
+            "version": "v2.2.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ikkez/f3-schema-builder.git",
+                "reference": "1fc4cf37e4683037d35a8536232bcacbf7f4dd0b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ikkez/f3-schema-builder/zipball/1fc4cf37e4683037d35a8536232bcacbf7f4dd0b",
+                "reference": "1fc4cf37e4683037d35a8536232bcacbf7f4dd0b",
+                "shasum": ""
+            },
+            "require": {
+                "bcosca/fatfree-core": "^3.6"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "description": "SQL Schema Builder Plugin for PHP Fat-Free Framework",
+            "homepage": "https://github.com/ikkez/f3-schema-builder",
+            "keywords": [
+                "F3",
+                "fatfree",
+                "sql"
+            ],
+            "support": {
+                "issues": "https://github.com/ikkez/f3-schema-builder/issues",
+                "source": "https://github.com/ikkez/f3-schema-builder/tree/v2.2.6"
+            },
+            "time": "2023-02-13T19:12:50+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "dduers/f3-app": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.4"
+        "php": ">=8.2"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
