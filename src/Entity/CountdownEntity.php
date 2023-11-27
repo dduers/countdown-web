@@ -6,23 +6,12 @@ namespace Dduers\CountdownWeb\Entity;
 
 use Base;
 use Web;
-use DB\Jig\Mapper;
+use Dduers\CountdownWeb\Repository;
 use Image;
 
-final class CountdownEntity extends Mapper
+final class CountdownEntity extends Repository
 {
-    private Base $_f3;
-    private Web $_web;
-
-    public function __construct()
-    {
-        // fatfree class instances
-        $this->_f3 = Base::instance();
-        $this->_web = Web::instance();
-
-        // load database
-        parent::__construct($this->_f3->get('DB'), 'countdown.json');
-    }
+    protected const TABLE_NAME = 'countdown.json';
 
     /**
      * check if the record exists by id
@@ -87,10 +76,9 @@ final class CountdownEntity extends Mapper
     /**
      * create a new record
      * @param array $data_ the user data
-     * @param array $files_ the picture files to upload
      * @return string id of the new record
      */
-    public function createRecord(array $data_, array $files_): string
+    public function createRecord(array $data_): string
     {
         // only allow certain keys in user data
         $_data = array_filter($data_, function ($value_, $key_) {

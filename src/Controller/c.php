@@ -12,10 +12,11 @@ final class c extends Application
     private CountdownEntity $_model_countdown;
 
     /**
-     * common for all methods
+     * common for all requests
      */
     function commonTasks()
     {
+        parent::init();
         $this->_model_countdown = new CountdownEntity();
     }
 

@@ -6,85 +6,25 @@ namespace Dduers\CountdownWeb;
 
 use Base;
 use DB\jig;
-use Log;
-use Prefab;
-use Template;
-use Web;
+use Dduers\F3App\F3App;
+use Dduers\F3App\Service\DatabaseService;
 
 /**
- * 
+ * application base controller
+ * @author Daniel Duersteler <daniel.duersteler@xsite.ch>
  **/
-class Application extends Prefab
+class Application extends F3App
 {
-    // instance of the $_f3-framework
-    static protected Base $_f3;
-    // web class
-    static protected Web $_web;
-    // jig database
-    static protected jig $_jig;
+    protected static Base $_f3;
+    protected static jig $_db;
 
     /**
-     * constructor
+     * common tasks
      */
-    function __construct()
+    protected static function init()
     {
-        // store framework instance locally
         self::$_f3 = Base::instance();
-        // store fwebclass instance
-        self::$_web = Web::instance();
-        // _jig database
-        self::$_f3->set('DB', self::$_jig = new jig(self::$_f3->get('jig.root'), jig::FORMAT_JSON));
-    }
-
-    /**
-     * http route preprocessor
-     * @param Base $f3_ fatfree framework instance
-     */
-    public static function beforeroute(Base $f3_)
-    {
-        // set language to the one detected above
-        $f3_->set('LANGUAGE', 'en');
-        // set default response mime
-        $f3_->set('RESPONSE.mime', 'text/html');
-        // set default page
-        if (!$f3_->get('PARAMS.page'))
-            $f3_->set('PARAMS.page', 'home');
-        // store data from put and delete requests
-        if ($f3_->get('VERB') === 'PUT' || $f3_->get('VERB') === 'DELETE') {
-            parse_str(file_get_contents("php://input"), $_vars);
-            self::$_f3->set($f3_->get('VERB'), $_vars);
-            //$f3_->set($f3_->get('VERB'), json_decode(file_get_contents('php://input'), true));
-        }
-
-
-        //$_log = new Log('temp.txt');
-        //$_log->write(json_encode(json_decode(file_get_contents('php://input'), true)));
-    }
-
-    //! HTTP route post-processor
-    // - output RESPONSE.data with content header RESPONSE.mime
-    // - check for cli execution
-    // - check for google recaptcha frontend request
-    public static function afterroute(Base $f3_)
-    {
-        // set content type header
-        header('Content-Type: ' . strtolower($f3_->get('RESPONSE.mime')));
-        // Render template depending on result mime type 
-        switch (strtolower($f3_->get('RESPONSE.mime'))) {
-                // html output
-            default:
-            case 'text/html':
-                // output data
-                echo Template::instance()->render('template.htm');
-                break;
-                // json output
-            case 'application/json':
-                // output the response data array as json, pretty print when in debug mode
-                echo json_encode($f3_->get('RESPONSE.data'), ($f3_->get('DEBUG') ? JSON_PRETTY_PRINT : 0));
-                break;
-        }
-        // reset flash messages
-        $f3_->set('SESSION.message', []);
+        self::$_db = DatabaseService::getService();
     }
 
     /**
@@ -100,38 +40,18 @@ class Application extends Prefab
             return false;
         }
 
-        // depending on the error code
-        switch ($f3_->get('ERROR.code')) {
-
-                // 403 - access denied
-                // 404 - content not found
-                // 405 - method not allowed
-            case 400:
-            case 401:
-            case 403:
-            case 404:
-            case 405:
-                $f3_->push('SESSION.message', [
-                    'type' => 'danger',
-                    'text' => $f3_->get('ERROR.text'),
-                ]);
-                break;
-                // 500 - internal server error
-            case 500:
-                // if debug is enabled
-                if ($f3_->get('DEBUG')) {
-                    $f3_->push('SESSION.message', [
-                        'type' => 'danger',
-                        'text' => $f3_->get('ERROR.text'),
-                    ]);
-                    // if debug is disabled
-                } else {
-                    $f3_->push('SESSION.message', [
-                        'type' => 'danger',
-                        'text' => 'Internal Server Error (500)',
-                    ]);
-                }
-                break;
+        // if debug is enabled
+        if ($f3_->get('DEBUG')) {
+            $f3_->push('SESSION.message', [
+                'type' => 'danger',
+                'text' => $f3_->get('ERROR.text'),
+            ]);
+            // if debug is disabled
+        } else {
+            $f3_->push('SESSION.message', [
+                'type' => 'danger',
+                'text' => 'Internal Server Error (500)',
+            ]);
         }
 
         // return true for error handled
@@ -139,22 +59,59 @@ class Application extends Prefab
     }
 
     /**
-     * run the application
+     * set content type header
+     * @param string $mime_
      * @return void
      */
-    public static function run(): void
+    protected static function setContentType(string $mime_): void
     {
-        self::$_f3->run();
+        parent::header('Content-Type', $mime_, true);
     }
 
     /**
-     * load configuration files
+     * set content length header
+     * @param int $length_
      * @return void
      */
-    public static function config(): void
+    protected static function setContentLength(int $length_): void
     {
-        // load configuration files
-        foreach (glob('../config/*.ini') as $_inifile)
-            self::$_f3->config($_inifile, false);
+        parent::header('Content-Length', (string)$length_, true);
+    }
+
+    /**
+     * set body data, also merge dynamically added front end control configs
+     * @param array $data_
+     * @return void
+     */
+    protected static function setContentData(array $data_ = []): void
+    {
+        $_data = [];
+        //$_controls = self::$_frontend_controls::getControls();
+        //if (count($_controls))
+        //$_data = array_merge_recursive(['controls' => self::$_frontend_controls::getControls()], $data_);
+        //else 
+        $_data = $data_;
+        parent::body($_data);
+    }
+
+    /**
+     * set the content disposition header
+     * @param string $filename_
+     * @param string $type_ attachment | inline
+     * @return void
+     */
+    protected static function setContentDisposition(string $filename_, string $type_ = 'attachment'): void
+    {
+        parent::header('Content-Disposition', $type_ . '; filename="' . $filename_ . '"', true);
+    }
+
+    /**
+     * add data for template rendering, VIEWVARS.*
+     * @param string|array $data_
+     * @return void
+     */
+    protected static function addTemplateData(string|array $data_, string $prefix_ = 'VIEWVARS.'): void
+    {
+        self::$_f3->mset($data_, $prefix_);
     }
 }

@@ -14,8 +14,13 @@ final class backend extends Application
 
     private static CountdownEntity $_model_countdown;
 
+    /**
+     * common for all requests
+     * @return void
+     */
     private static function commonTasks(): void
     {
+        parent::init();
         self::$_model_countdown = new CountdownEntity();
     }
 
@@ -39,6 +44,7 @@ final class backend extends Application
      */
     function post(): void
     {
+        self::commonTasks();
         if (self::$_f3->get('POST.username') !== self::USERNAME || self::$_f3->get('POST.password') !== self::PASSWORD) {
             self::$_f3->error(403);
             return;
