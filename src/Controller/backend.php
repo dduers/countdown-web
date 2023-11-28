@@ -22,6 +22,7 @@ final class backend extends Application
     {
         parent::init();
         self::$_model_countdown = new CountdownEntity();
+        parent::setContentType('text/html');
     }
 
     /**
@@ -31,9 +32,9 @@ final class backend extends Application
     {
         self::commonTasks();
         // if a login exists
-        if (self::$_f3->get('SESSION.username') === self::USERNAME) {
+        if (parent::vars('SESSION.username') === self::USERNAME) {
             // store countdown entries for frontend
-            self::$_f3->set('RESPONSE.records', self::$_model_countdown->getAllRecords());
+            parent::addTemplateData(['records' => self::$_model_countdown->getAllRecords()]);
             return;
         }
         return;
@@ -45,13 +46,12 @@ final class backend extends Application
     function post(): void
     {
         self::commonTasks();
-        if (self::$_f3->get('POST.username') !== self::USERNAME || self::$_f3->get('POST.password') !== self::PASSWORD) {
-            self::$_f3->error(403);
+        if (parent::vars('POST.username') !== self::USERNAME || parent::vars('POST.password') !== self::PASSWORD) {
+            parent::error(403);
             return;
         }
-        self::$_f3->set('SESSION.username', self::$_f3->get('POST.username'));
-        //self::$_f3->set('SESSION.password', self::$_f3->get('POST.password'));
-        self::$_f3->reroute('/' . self::$_f3->get('PARAMS.page'));
+        parent::vars('SESSION.username', parent::vars('POST.username'));
+        parent::$_f3->reroute('/' . parent::vars('PARAMS.page'));
         return;
     }
 
@@ -61,23 +61,21 @@ final class backend extends Application
     function delete(): void
     {
         self::commonTasks();
-        self::$_f3->set('RESPONSE.mime', 'application/json');
-        $_id_record = (string)self::$_f3->get('DELETE.id');
+        parent::vars('RESPONSE.mime', 'application/json');
+        $_id_record = (string)parent::vars('DELETE.id');
         if ($_id_record === '') {
-            self::$_f3->error(400);
+            parent::error(400);
             return;
         }
-        if (self::$_f3->get('SESSION.username') !== self::USERNAME) {
-            self::$_f3->error(403);
+        if (parent::vars('SESSION.username') !== self::USERNAME) {
+            parent::error(403);
             return;
         }
         if (!self::$_model_countdown->recordExists($_id_record)) {
-            self::$_f3->error(404);
+            parent::error(404);
             return;
         }
-        self::$_f3->set('RESPONSE.data', [
-            'result' => self::$_model_countdown->deleteRecord($_id_record),
-        ]);
-        return; 
+        parent::addTemplateData(['result' => self::$_model_countdown->deleteRecord($_id_record)]);
+        return;
     }
 }

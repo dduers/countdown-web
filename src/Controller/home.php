@@ -14,6 +14,7 @@ final class home extends Application
     function commonTasks()
     {
         parent::init();
+        parent::setContentType('text/html');
     }
 
     /**
@@ -22,6 +23,5 @@ final class home extends Application
     function get()
     {
         self::commonTasks();
-        parent::setContentType('text/html');
     }
 }

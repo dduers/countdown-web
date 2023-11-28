@@ -28,6 +28,7 @@ class Repository extends Mapper
     {
         $this->_f3 = Base::instance();
         $this->_db = DatabaseService::getService();
+        $this->_web = Web::instance();
         //$this->_cookie = CookieService::instance();
         parent::__construct($this->_db, static::TABLE_NAME);
     }

@@ -9,8 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <check if="(@PARAMS.id ?? 0) && !(@ERROR.code ?? 0)">
         <meta name="twitter:card" content="summary" />
-        <meta property="og:title" content="{{ @RESPONSE.data.title }}" />
-        <meta property="og:description" content="{{ @RESPONSE.data.description }}" />
+        <meta property="og:title" content="{{ @VIEWVARS.data.title ?? @DICT.meta.author ?? '' }}" />
+        <meta property="og:description" content="{{ @VIEWVARS.data.description ?? @DICT.meta.description ?? '' }}" />
         <check if="file_exists('images/c/'.@PARAMS['id'].'.jpg')">
             <meta property="og:image" content="{{ @SCHEME }}://{{ @HOST }}{{ @BASE }}/images/c/{{ @PARAMS.id }}.jpg" />
         </check>
@@ -35,7 +35,7 @@
 
 <body id="{{ @PARAMS.page }}">
     <main role="main" class="container mt-5">
-        <repeat group="@SESSION.message ?? []" key="@key" value="@value">
+        <repeat group="\Dduers\F3App\Service\SessionService::instance()::getFlashMessages() ?? []" key="@key" value="@value">
             <div class="alert alert-{{ @value.type }}" role="alert">{{ @value.text }}</div>
         </repeat>
         <include if="{{ file_exists(@UI.'page/'.@PARAMS.page.'.htm') }}" href="{{ 'page/'.@PARAMS.page.'.htm' }}" />

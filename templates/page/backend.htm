@@ -16,7 +16,7 @@
                         <td>{{ @DICT.options }}</td>
                     </thead>
                     <tbody>
-                        <repeat group="{{ @RESPONSE.records }}" value="{{ @record }}" key="{{ @key }}">
+                        <repeat group="{{ @VIEWVARS.records }}" value="{{ @record }}" key="{{ @key }}">
                             <tr>
                                 <td>{{ @record._id }}</td>
                                 <td>{{ @record.title }}</td>
@@ -33,7 +33,7 @@
                         </repeat>
                     </tbody>
                 </table>
-                <check if="!count(@RESPONSE.records)">
+                <check if="!count(@VIEWVARS.records)">
                     <div class="alert alert-warning">{{ @DICT.norecords }}</div>
                 </check>
                 <a class="btn btn-lg btn-danger mt-3" href="/c">{{ @DICT.create }}</a>

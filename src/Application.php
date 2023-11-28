@@ -8,6 +8,7 @@ use Base;
 use DB\jig;
 use Dduers\F3App\F3App;
 use Dduers\F3App\Service\DatabaseService;
+use Dduers\F3App\Service\SessionService;
 
 /**
  * application base controller
@@ -17,6 +18,7 @@ class Application extends F3App
 {
     protected static Base $_f3;
     protected static jig $_db;
+    protected static SessionService $_session;
 
     /**
      * common tasks
@@ -24,7 +26,10 @@ class Application extends F3App
     protected static function init()
     {
         self::$_f3 = Base::instance();
-        self::$_db = DatabaseService::getService();
+        self::$_db = DatabaseService::instance()::getService();
+        self::$_session = SessionService::instance();
+        if (parent::vars('PARAMS.page') === null)
+            parent::vars('PARAMS.page', 'home');
     }
 
     /**
@@ -34,26 +39,17 @@ class Application extends F3App
      */
     public static function onerror(Base $f3_)
     {
+        self::init();
         // switch to default error handler, when it's a cli call or debugging is enabled
         if ($f3_->get('DEBUG') > 1) {
             // return false, to fallback to default error handler
             return false;
         }
-
         // if debug is enabled
-        if ($f3_->get('DEBUG')) {
-            $f3_->push('SESSION.message', [
-                'type' => 'danger',
-                'text' => $f3_->get('ERROR.text'),
-            ]);
-            // if debug is disabled
-        } else {
-            $f3_->push('SESSION.message', [
-                'type' => 'danger',
-                'text' => 'Internal Server Error (500)',
-            ]);
-        }
-
+        if ($f3_->get('DEBUG'))
+            self::$_session::addFlashMessage($f3_->get('ERROR.text'), 'danger');
+        // if debug is disabled
+        else self::$_session::addFlashMessage('Internal Server Error (500)', 'danger');
         // return true for error handled
         return true;
     }

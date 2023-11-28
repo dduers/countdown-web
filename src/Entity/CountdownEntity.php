@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Dduers\CountdownWeb\Entity;
 
-use Base;
-use Web;
 use Dduers\CountdownWeb\Repository;
 use Image;
 

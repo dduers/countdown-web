@@ -11,12 +11,14 @@
                         <label for="floatingTitle">Title</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <textarea name="description" class="form-control" id="floatingDescription" placeholder="Description" required></textarea>
+                        <textarea name="description" class="form-control" id="floatingDescription"
+                            placeholder="Description" required></textarea>
                         <label for="floatingDescription">Description</label>
                     </div>
                     <exclude>
                         <div class="form-floating mb-3">
-                            <input name="url" type="url" class="form-control" id="floatingWebsite" placeholder="Website">
+                            <input name="url" type="url" class="form-control" id="floatingWebsite"
+                                placeholder="Website">
                             <label for="floatingWebsite">Website</label>
                         </div>
                     </exclude>
@@ -25,11 +27,13 @@
                         <input name="picture" class="form-control" type="file" id="formFile">
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="date" class="form-control" id="floatingDate" placeholder="Expiration Date" required>
+                        <input name="date" class="form-control" id="floatingDate" placeholder="Expiration Date"
+                            required>
                         <label for="floatingDate">Expiration Date</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="goodbye" class="form-control" id="floatingGoodbye" placeholder="Expiration Text" required>
+                        <input name="goodbye" class="form-control" id="floatingGoodbye" placeholder="Expiration Text"
+                            required>
                         <label for="floatingGoodbye">Expiration Text</label>
                     </div>
                     <button class="btn btn-lg btn-danger">Submit</button>
@@ -47,11 +51,11 @@
                             <true>
                                 <dic class="row">
                                     <div class="col-md-8">
-                                        <h5 class="card-title">{{ @RESPONSE.data.title }}</h5>
-                                        <p class="card-text">{{ @RESPONSE.data.description | raw }}</p>
+                                        <h5 class="card-title">{{ @VIEWVARS.data.title }}</h5>
+                                        <p class="card-text">{{ @VIEWVARS.data.description | raw }}</p>
                                         <exclude>
-                                            <check if="@RESPONSE.data.url">
-                                                <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
+                                            <check if="@VIEWVARS.data.url">
+                                                <a href="{{ @VIEWVARS.data.url }}" class="btn btn-primary">More</a>
                                             </check>
                                         </exclude>
                                     </div>
@@ -61,11 +65,11 @@
                                 </dic>
                             </true>
                             <false>
-                                <h5 class="card-title">{{ @RESPONSE.data.title }}</h5>
-                                <p class="card-text">{{ @RESPONSE.data.description | raw }}</p>
+                                <h5 class="card-title">{{ @VIEWVARS.data.title }}</h5>
+                                <p class="card-text">{{ @VIEWVARS.data.description | raw }}</p>
                                 <exclude>
-                                    <check if="@RESPONSE.data.url">
-                                        <a href="{{ @RESPONSE.data.url }}" class="btn btn-primary">More</a>
+                                    <check if="@VIEWVARS.data.url">
+                                        <a href="{{ @VIEWVARS.data.url }}" class="btn btn-primary">More</a>
                                     </check>
                                 </exclude>
                             </false>
@@ -75,7 +79,9 @@
             </false>
             <true>
                 <div class="card">
-                    <div class="card-header"><h2>{{ @DICT.notfound }} - {{ @ERROR.code }}</h2></div>
+                    <div class="card-header">
+                        <h2>{{ @DICT.notfound }} - {{ @ERROR.code }}</h2>
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ @DICT.notfoundtitle }}</h5>
                         <p class="card-text">{{ @DICT.notfoundtext }}</p>
