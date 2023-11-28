@@ -41,7 +41,8 @@ final class c extends Application
             parent::error(404);
             return;
         }
-        parent::addTemplateData(['data' => self::$_model_countdown->getRecordById(self::vars('PARAMS.id'))]);
+        if (self::vars('PARAMS.id'))
+            parent::addTemplateData(['data' => self::$_model_countdown->getRecordById(self::vars('PARAMS.id'))]);
         self::ajaxResponse();
         return;
     }

@@ -11,7 +11,7 @@
             // delete button
             $('.action-delete').click(function (event) {
                 event.preventDefault();
-                //console.log($(this).val());
+                console.log($(this).val());
                 $.ajax({
                     url: window.location.href,
                     type: 'DELETE',
@@ -20,6 +20,7 @@
                         id: $(this).val(),
                     },
                     success: function (data) {
+                        console.log(data);
                         window.location = window.location.href;
                     }
                 });
