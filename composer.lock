@@ -47,12 +47,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dduers/f3-app.git",
-                "reference": "f91342484adb428b96e86bd86fffcf606907ddc4"
+                "reference": "32ec94dad7be9356cdfc30001b76e1979ff18ede"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dduers/f3-app/zipball/f91342484adb428b96e86bd86fffcf606907ddc4",
-                "reference": "f91342484adb428b96e86bd86fffcf606907ddc4",
+                "url": "https://api.github.com/repos/dduers/f3-app/zipball/32ec94dad7be9356cdfc30001b76e1979ff18ede",
+                "reference": "32ec94dad7be9356cdfc30001b76e1979ff18ede",
                 "shasum": ""
             },
             "require": {
@@ -83,7 +83,7 @@
                 "issues": "https://github.com/dduers/f3-app/issues",
                 "source": "https://github.com/dduers/f3-app/tree/main"
             },
-            "time": "2023-12-02T18:48:57+00:00"
+            "time": "2023-12-05T00:57:19+00:00"
         },
         {
             "name": "html2text/html2text",
