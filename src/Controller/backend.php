@@ -6,6 +6,7 @@ namespace Dduers\CountdownWeb\Controller;
 
 use Dduers\CountdownWeb\Application;
 use Dduers\CountdownWeb\Entity\CountdownEntity;
+use Log;
 
 final class backend extends Application
 {
@@ -61,7 +62,10 @@ final class backend extends Application
     function delete(): void
     {
         self::commonTasks();
-        parent::vars('RESPONSE.mime', 'application/json');
+        
+        $_log = new Log('log.txt');
+        $_log->write((string)parent::vars('DELETE.id'));
+
         $_id_record = (string)parent::vars('DELETE.id');
         if ($_id_record === '') {
             parent::error(400);
@@ -75,7 +79,8 @@ final class backend extends Application
             parent::error(404);
             return;
         }
-        parent::addTemplateData(['result' => self::$_model_countdown->deleteRecord($_id_record)]);
+        parent::setContentType('application/json');
+        parent::setContentData(['result' => self::$_model_countdown->deleteRecord($_id_record)]);
         return;
     }
 }

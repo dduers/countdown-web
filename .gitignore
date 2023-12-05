@@ -2,4 +2,4 @@
 /vendor
 /config/*.local.ini
 /public/images/c/*.jpg
-/files/jig
+/database/jig
