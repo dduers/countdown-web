@@ -2,10 +2,11 @@ FROM php:8.2.3-apache
 
 # install libs and php mods
 RUN apt-get update && apt-get install -y
-RUN apt-get install -y libmariadb-dev libpng-dev libjpeg-dev libzip-dev libgd-dev
-RUN docker-php-ext-install mysqli pdo_mysql gd zip
+RUN apt-get install -y libmariadb-dev libpng-dev libjpeg-dev libzip-dev libxml2-dev libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpq-dev zlib1g-dev graphicsmagick
+RUN docker-php-ext-configure gd --with-libdir=/usr/include/ --with-jpeg --with-freetype
+RUN docker-php-ext-install -j$(nproc) mysqli soap gd zip opcache intl pdo_mysql
 
-# timezone setting
+# timezone config
 ENV TZ=Europe/Zurich
 RUN apt-get install -yq tzdata
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
