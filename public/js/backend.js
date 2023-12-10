@@ -1,8 +1,4 @@
-/* ---------------------------------------------------------
-    STATISTICS CONTROLLER
---------------------------------------------------------- */
 (function ($) {
-
     // page controller
     $.fn.controller = function () {
         var api = {};
