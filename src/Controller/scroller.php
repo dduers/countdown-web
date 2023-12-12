@@ -37,12 +37,19 @@ final class scroller extends Application
                 'intro' => 'A long time ago, in a galaxy far, far away ...',
                 'title' => 'Episode I',
                 'subtitle' => 'THE CODER\'S MENACE',
-                'scroll' => 'Turmoil has engulfed the Galactic Republic as Christopher Kade finishes studying to become a master in his trade.',
+                'scroll' => 'Turmoil has engulfed the Galactic Republic as Christopher Kade finishes studying to become a master in his trade.
+                Turmoil has engulfed the Galactic Republic as Christopher Kade finishes studying to become a master in his trade.
+                Turmoil has engulfed the Galactic Republic as Christopher Kade finishes studying to become a master in his trade.
+                Turmoil has engulfed the Galactic Republic as Christopher Kade finishes studying to become a master in his trade.
+                Turmoil has engulfed the Galactic Republic as Christopher Kade finishes studying to become a master in his trade.
+                Turmoil has engulfed the Galactic Republic as Christopher Kade finishes studying to become a master in his trade.
+                Turmoil has engulfed the Galactic Republic as Christopher Kade finishes studying to become a master in his trade.
+                Turmoil has engulfed the Galactic Republic as Christopher Kade finishes studying to become a master in his trade.',
             ],
             'logo' => [
-                'source' => 'http://localhost/images/dance.png',
+                //'source' => 'http://localhost/images/dance.png',
                 'data' =>
-                    '<svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="693.615px" height="419.375px" viewBox="0 0 693.615 419.375" enable-background="new 0 0 693.615 419.375" xml:space="preserve"> 
+                '<svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="693.615px" height="419.375px" viewBox="0 0 693.615 419.375" enable-background="new 0 0 693.615 419.375" xml:space="preserve"> 
                         <g id="Layer_2">
                             <g>
                                 <path fill="#FFE81F" d="M148.718,221.207l8.67,25.461c4.691,13.768,8.879,24.779,9.425,24.779c0.009,0,0.017-0.004,0.024-0.01

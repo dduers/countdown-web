@@ -7,12 +7,12 @@ textarea {
 body {
     margin: 0;
     background-color: black;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 /* Set the animation, color, size and hide the text */
 .intro {
-    position: absolute;
+    position: relative;
     top: 30%;
     left: 35%;
     z-index: 3;
@@ -39,6 +39,12 @@ body {
     100% {
         opacity: 0;
     }
+}
+
+#scroller-container {
+    height: 500px;
+    width: 750px;
+    margin: 0 auto;
 }
 
 /* Set the animation & hide the logo */

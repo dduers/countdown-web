@@ -178,7 +178,7 @@
             // random position for each star
             for (let i = 0; i < settings.stars.count; i++) {
 
-                let star = document.createElement(settings.stars.element);
+                let $star = $('<' + settings.stars.element + '></' + settings.stars.element + '>');
 
                 // position of star
                 let xy = getRandomPosition();
@@ -189,33 +189,35 @@
                 let opacity = settings.stars.style.opacity[Math.floor(Math.random() * settings.stars.style.opacity.length)];
 
                 // star classes
-                star.className = settings.stars.class;
+                $star.addClass(settings.stars.class);
 
                 // star style
-                star.style.top = xy[0] + 'px';
-                star.style.left = xy[1] + 'px';
-                star.style.backgroundColor = color;
-                star.style.width = size;
-                star.style.height = size;
-                star.style.position = 'absolute';
-                star.style.borderRadius = '3px';
-                star.style.opacity = opacity;
+                $star.css('top', xy.top + 'px');
+                $star.css('left', xy.left + 'px');
+                $star.css('backgroundColor', color);
+                $star.css('width', size);
+                $star.css('height', size);
+                $star.css('position', 'absolute');
+                $star.css('borderRadius', '3px');
+                $star.css('opacity', opacity);
 
                 // append star to body
-                document.body.append(star);
+                $('#scroller-container').append($star);
             }
         };
 
         /**
-         * get random position
+         * get random position within the container
          * @returns array
          */
         let getRandomPosition = function () {
-            var y = window.innerWidth;
-            var x = window.innerHeight;
-            var randomX = Math.floor(Math.random() * x);
-            var randomY = Math.floor(Math.random() * y);
-            return [randomX, randomY];
+            $position = $('#scroller-container').offset();
+            var containerWidth = $('#scroller-container').width();
+            var containerHeight = $('#scroller-container').height();
+            return {
+                left: $position.left + Math.floor((Math.random()) * containerWidth),
+                top: $position.top + Math.floor((Math.random()) * containerHeight),
+            };
         };
 
         // init the controller
